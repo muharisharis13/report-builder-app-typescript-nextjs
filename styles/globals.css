@@ -12,3 +12,9 @@ input:checked ~ .dot {
   transform: translateX(100%);
   /* background-color: #48bb78; */
 }
+
+#wrap-slider-editor{
+  background-image: url("../public/bg-mage-slide.png");
+  background-size: contain;
+  background-position: center;
+}

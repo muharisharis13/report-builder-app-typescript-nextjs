@@ -18,7 +18,7 @@ export default function builder({}: Props) {
         <SlideEditor/>
         <RightMenu/>
       </BuilderContent>
-      <Footer/>
+      {/* <Footer/> */}
     </div>
   )
 }

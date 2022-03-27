@@ -2,6 +2,7 @@ import { useState,Fragment } from 'react'
 import { Dialog, Transition } from '@headlessui/react';
 import Image from "next/image";
 import Card from "../public/cardHover.png";
+import Link from "next/link"
 
 function MyDialog(props:{isOpen:boolean, setIsOpen:Function}) {
   let {isOpen, setIsOpen} = props
@@ -55,14 +56,16 @@ function MyDialog(props:{isOpen:boolean, setIsOpen:Function}) {
                 <div className="wrap-thumbnail mt-10 flex gap-10 justify-center flex-wrap">
                   {
                     [2,2,2,2,2,2].map((item:any,idx:number)=>(
-                      <a href='/builder/builder'>
-                        <div className="card cursor-pointer" key={idx}>
-                          <Image src={Card} alt="" />
-                          <p className='text-content text-sm text-center'>
-                            Lorem, ipsum.
-                          </p>
-                        </div>
-                      </a>
+                      <Link href='/builder/builder'>
+                        <a >
+                          <div className="card cursor-pointer" key={idx}>
+                            <Image src={Card} alt="" />
+                            <p className='text-content text-sm text-center'>
+                              Lorem, ipsum.
+                            </p>
+                          </div>
+                        </a>
+                      </Link>
                     ))
                   }
                 </div>

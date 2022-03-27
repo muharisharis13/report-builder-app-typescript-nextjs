@@ -61,7 +61,9 @@ export default function Header({}: Props) {
       <div className="flex justify-between items-center grow">
         <div className="">
           <Link href="/">
-            <Image width={120} src={Logo} alt="logo" className='cursor-pointer'  />
+            <a>
+              <Image width={120} src={Logo} alt="logo" className='cursor-pointer'  />
+            </a>
           </Link>
         </div>
         <div className="flex items-center gap-x-2">
@@ -96,13 +98,13 @@ export default function Header({}: Props) {
       <div className="wrap-navigation ml-32 flex items-center">
         {
           nav_data.map((item:any,idx:number)=>(
-            <a href={item.path} key={idx}>
-              <button 
-                className={`px-2 py-1 ${item.path === router.pathname ? `bg-white text-red-500` :`text-white`}`}
+            <Link href={item.path} key={idx}>
+              <a 
+                className={`px-2 py-1 hover:bg-white hover:text-red-500 ${item.path === router.pathname ? `bg-white text-red-500` :`text-white`}`}
               >
                 {item.name}
-              </button>
-            </a>
+              </a>
+            </Link>
           ))
         }
       </div>

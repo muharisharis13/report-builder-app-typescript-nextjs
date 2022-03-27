@@ -29,7 +29,7 @@ const Home: NextPage = () => {
           Last template
         </p>
         {/* list thumbnail */}
-        <div className="flex flex-wrap gap-2">
+        <div className="flex flex-wrap gap-11">
           {
             [2,2,2,2,2,2].map((item:any,idx:number)=>(
               <div className="card" key={idx}>
@@ -44,7 +44,7 @@ const Home: NextPage = () => {
       </div>
 
       {/* background dan button */}
-      <div className="wrap-background-button mt-20">
+      <div className="wrap-background-button mt-10">
         <div className="wrap-image text-center">
           <Image src={Bg} />
         </div>
