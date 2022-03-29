@@ -17,4 +17,6 @@ input:checked ~ .dot {
   background-image: url("../public/bg-mage-slide.png");
   background-size: contain;
   background-position: center;
+  background-repeat: no-repeat;
+  height: 522px;
 }
