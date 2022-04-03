@@ -1,19 +1,83 @@
-import React from 'react';
+import React,{useState, useEffect} from 'react';
 import {DocumentAddIcon} from "@heroicons/react/solid";
 import Input from "./Input";
-import DatePicker from "react-datepicker"
+import DatePicker from "react-datepicker";
+import * as Containers from "./index";
+import 'react-quill/dist/quill.snow.css';
+import  ReactQuill from "react-quill";
 
 type Props = {}
 
+type PropsModal = {
+  addSlide:boolean,addBackground:boolean,addImageQuill:boolean
+}
+
 export default function RightMenu({}: Props) {
+  const [modal, setModal] = useState<PropsModal>({
+    addSlide:false,
+    addBackground:false,
+    addImageQuill: false
+  })
+  const [dataProps,setDataProps] = useState<any>({})
+
+  const BtnAddImage = async(e:any,name:string) =>{
+    console.log(e)
+    switch (name) {
+      case "background":
+        await Promise.all([
+          setDataProps((state:any)=>({...state,image:e.target.files[0]})),
+          setModal((state:any)=>({...state,addBackground:true}))
+        ])
+        break;
+      case "mainImage":
+        await Promise.all([
+          setModal((state:any)=>({...state,addImageQuill:true}))
+        ])
+        break;
+    
+      default:
+        break;
+    }
+  }
+
+  useEffect(()=>{
+    if(modal.addBackground === false){
+      setDataProps({})
+    }
+  },[modal.addBackground])
+
   return (
     <div className='wrap-side-bar bg-white w-60'>
+      {/* MODAL ===== */}
+        <Containers.Modal 
+          isOpen={modal.addSlide} 
+          setIsOpen={()=>setModal(state=>({...state,addSlide:false}))} 
+          
+        />
+        <Containers.ModalAddImage 
+          isOpen={modal.addBackground} 
+          setIsOpen={()=>setModal(state=>({...state,addBackground:false}))} 
+          dataProps={dataProps}
+        />
+        <Containers.ModalReactQuill 
+          isOpen={modal.addImageQuill} 
+          setIsOpen={()=>setModal(state=>({...state,addImageQuill:false}))}
+          ReactQuill={
+            // <ReactQuill 
+            //   value={value}
+            //   onChange={(e:any)=>setValue(e)}
+            // />
+            "react-quill"
+          }
+        />
+      {/* MODAL ===== */}
+
       <div className="wrap-slide-preview flex items-center justify-between bg-gray-100 border p-2">
         <p className='font-semibold text-blue-700'>
           Cover
         </p>
         <button className='border flex w-auto items-center justify-center border-blue-700 px-2 py-1 rounded-sm'>
-          <p className='font-semibold text-blue-700 text-sm'>
+          <p className='font-semibold text-blue-700 text-sm' onClick={()=>setModal(state=>({...state,addSlide:true}))}>
             Add Slide
           </p>
           <DocumentAddIcon width={20} className="text-blue-700" />
@@ -57,7 +121,7 @@ export default function RightMenu({}: Props) {
             <div className="mb-3 flex flex-col">
               <label htmlFor="Client">Date</label>
               
-              <DatePicker selected={new Date()} className="border rounded-sm focus:outline-none px-2 h-8 w-full cursor-pointer" />
+              <DatePicker onChange={e =>console.log(e)} selected={new Date()} className="border rounded-sm focus:outline-none px-2 h-8 w-full cursor-pointer" />
 
             </div>
             <div className="mb-3 flex flex-col">
@@ -86,19 +150,34 @@ export default function RightMenu({}: Props) {
 
           <div className=" mb-8">
             <label htmlFor="Document Title">Background</label>
-            <input type="file" name="" id="" className='w-auto file:text-sm file:border-none file:p-2 file:font-semibold file:rounded-xl' />
+            <input type="file" name="" id="" className='w-auto file:text-sm file:border-none file:p-2 file:font-semibold file:rounded-xl' onChange={e=>BtnAddImage(e,"background")} />
           </div>
-          <div className="mb-8">
+          <div className="mb-8 flex flex-col">
             <label htmlFor="Document Title">Main Image</label>
-            <input type="file" name="" id="" className='w-auto file:text-sm file:border-none file:p-2 file:font-semibold file:rounded-xl' />
+            <button 
+              className=' border-none bg-slate-300 text-slate-900 rounded-md p-2 font-semibold text-sm'
+              onClick={e=>BtnAddImage(e,"mainImage")}
+            >
+              Upload Main Image
+            </button>
           </div>
-          <div className="mb-8">
+          <div className="mb-8 flex-col grid">
             <label htmlFor="Document Title">Image 1</label>
-            <input type="file" name="" id="" className='w-auto file:text-sm file:border-none file:p-2 file:font-semibold file:rounded-xl' />
+            <button 
+              className=' border-none bg-slate-300 text-slate-900 rounded-md p-2 font-semibold text-sm'
+              onClick={e=>BtnAddImage(e,"mainImage")}
+            >
+              Upload Image 1
+            </button>
           </div>
-          <div className="mb-8">
+          <div className="mb-8 flex flex-col">
             <label htmlFor="Document Title">Image 2</label>
-            <input type="file" name="" id="" className='w-auto file:text-sm file:border-none file:p-2 file:font-semibold file:rounded-xl' />
+            <button 
+              className=' border-none bg-slate-300 text-slate-900 rounded-md p-2 font-semibold text-sm'
+              onClick={e=>BtnAddImage(e,"mainImage")}
+            >
+              Upload Image 2
+            </button>
           </div>
         </div>
       </div>

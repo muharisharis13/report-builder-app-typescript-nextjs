@@ -21,7 +21,7 @@ const list_menu = [
   },
   {
     name:"Logout",
-    path:"/logout"
+    path:"/auth"
   },
 ]
 

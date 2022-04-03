@@ -7,9 +7,9 @@ import "react-datepicker/dist/react-datepicker.css";
 function MyApp({ Component, pageProps }: AppProps) {
   return (
     // <ThemeProvider attribute="class">
-        <Containers.Layout>
+        // <Containers.Layout>
           <Component {...pageProps} />
-        </Containers.Layout>
+        // </Containers.Layout>
     // </ThemeProvider>
   )
 }

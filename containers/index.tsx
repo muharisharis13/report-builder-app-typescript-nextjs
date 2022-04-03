@@ -6,7 +6,9 @@ import BuilderContent from "./BuilderContent";
 import SlideThumbnail from "./SlideThumbnail";
 import SlideEditor from "./SlideEditor";
 import RightMenu from "./RightMenu";
-import Modal from "./modal"
+import Modal from "./modal";
+import ModalAddImage from "./modal.addImage";
+import ModalReactQuill from "./modal.ReactQuill";
 
 
 export {
@@ -18,5 +20,7 @@ export {
   BuilderContent,
   SlideThumbnail,
   SlideEditor,
-  RightMenu
+  RightMenu,
+  ModalAddImage,
+  ModalReactQuill
 }
