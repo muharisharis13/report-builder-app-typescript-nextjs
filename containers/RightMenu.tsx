@@ -4,19 +4,18 @@ import Input from "./Input";
 import DatePicker from "react-datepicker";
 import * as Containers from "./index";
 import 'react-quill/dist/quill.snow.css';
-import  ReactQuill from "react-quill";
 
 type Props = {}
 
 type PropsModal = {
-  addSlide:boolean,addBackground:boolean,addImageQuill:boolean
+  addSlide:boolean,addBackground:boolean,addImage:boolean
 }
 
 export default function RightMenu({}: Props) {
   const [modal, setModal] = useState<PropsModal>({
     addSlide:false,
     addBackground:false,
-    addImageQuill: false
+    addImage: false
   })
   const [dataProps,setDataProps] = useState<any>({})
 
@@ -31,7 +30,8 @@ export default function RightMenu({}: Props) {
         break;
       case "mainImage":
         await Promise.all([
-          setModal((state:any)=>({...state,addImageQuill:true}))
+          setDataProps(URL.createObjectURL(e.target.files[0])),
+          setModal((state:any)=>({...state,addImage:true}))
         ])
         break;
     
@@ -60,15 +60,9 @@ export default function RightMenu({}: Props) {
           dataProps={dataProps}
         />
         <Containers.ModalReactQuill 
-          isOpen={modal.addImageQuill} 
-          setIsOpen={()=>setModal(state=>({...state,addImageQuill:false}))}
-          ReactQuill={
-            // <ReactQuill 
-            //   value={value}
-            //   onChange={(e:any)=>setValue(e)}
-            // />
-            "react-quill"
-          }
+          isOpen={modal.addImage} 
+          setIsOpen={()=>setModal(state=>({...state,addImage:false}))}
+          dataProps={dataProps}
         />
       {/* MODAL ===== */}
 
@@ -150,34 +144,21 @@ export default function RightMenu({}: Props) {
 
           <div className=" mb-8">
             <label htmlFor="Document Title">Background</label>
-            <input type="file" name="" id="" className='w-auto file:text-sm file:border-none file:p-2 file:font-semibold file:rounded-xl' onChange={e=>BtnAddImage(e,"background")} />
+            <input type="file" name="" id="" accept='image/*' className='w-auto file:text-sm file:border-none file:p-2 file:font-semibold file:rounded-xl' onChange={e=>BtnAddImage(e,"background")} />
           </div>
           <div className="mb-8 flex flex-col">
             <label htmlFor="Document Title">Main Image</label>
-            <button 
-              className=' border-none bg-slate-300 text-slate-900 rounded-md p-2 font-semibold text-sm'
-              onClick={e=>BtnAddImage(e,"mainImage")}
-            >
-              Upload Main Image
-            </button>
+            <input type="file" name="" id="" accept='image/*' className='w-auto file:text-sm file:border-none file:p-2 file:font-semibold file:rounded-xl' onChange={e=>BtnAddImage(e,"mainImage")} />
           </div>
           <div className="mb-8 flex-col grid">
             <label htmlFor="Document Title">Image 1</label>
-            <button 
-              className=' border-none bg-slate-300 text-slate-900 rounded-md p-2 font-semibold text-sm'
-              onClick={e=>BtnAddImage(e,"mainImage")}
-            >
-              Upload Image 1
-            </button>
+            <input type="file" name="" id="" accept='image/*' className='w-auto file:text-sm file:border-none file:p-2 file:font-semibold file:rounded-xl' onChange={e=>BtnAddImage(e,"mainImage")} />
+            
           </div>
           <div className="mb-8 flex flex-col">
             <label htmlFor="Document Title">Image 2</label>
-            <button 
-              className=' border-none bg-slate-300 text-slate-900 rounded-md p-2 font-semibold text-sm'
-              onClick={e=>BtnAddImage(e,"mainImage")}
-            >
-              Upload Image 2
-            </button>
+            <input type="file" name="" id="" accept='image/*' className='w-auto file:text-sm file:border-none file:p-2 file:font-semibold file:rounded-xl' onChange={e=>BtnAddImage(e,"mainImage")} />
+            
           </div>
         </div>
       </div>

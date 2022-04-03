@@ -14,7 +14,7 @@ input:checked ~ .dot {
 }
 
 #wrap-slider-editor{
-  background-image: url("../public/bg-mage-slide.png");
+  /* background-image: url("../public/bg-mage-slide.png"); */
   background-size: contain;
   height: 472px;
   background-position: center;

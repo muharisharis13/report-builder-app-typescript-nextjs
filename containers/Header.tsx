@@ -7,6 +7,8 @@ import Toggle from "./toggle";
 import Dropdown from "./dropdown"
 import Link from "next/link";
 import {useRouter} from "next/router"
+import {HomeIcon} from "@heroicons/react/solid"
+import {PlusCircleIcon,ClockIcon} from "@heroicons/react/outline";
 
 type Props = {}
 
@@ -48,6 +50,25 @@ const nav_data = [
   },
 ]
 
+
+const side_nav_data = [
+  {
+    name:"Home",
+    icon:<HomeIcon width={25} />,
+    path:"/home"
+  },
+  {
+    name:"New",
+    icon:<PlusCircleIcon width={25} />,
+    path:"/new"
+  },
+  {
+    name:"Recent",
+    icon:<ClockIcon width={25} />,
+    path:"/recent"
+  },
+]
+
 function classNames(...classes:any) {
   return classes.filter(Boolean).join(' ')
 }
@@ -57,7 +78,7 @@ export default function Header({}: Props) {
   const router = useRouter()
 
   return (
-    <div className='bg-red-500 block flex-row px-20 pt-3 text-white'>
+    <div className='bg-red-500 block fixed top-0 w-full z-10 flex-row px-20 pt-3 text-white'>
       <div className="flex justify-between items-center grow">
         <div className="">
           <Link href="/">
@@ -104,6 +125,25 @@ export default function Header({}: Props) {
               >
                 {item.name}
               </a>
+            </Link>
+          ))
+        }
+      </div>
+
+
+      {/* side bar navigation */}
+      <div className={`wrap-sidebar h-full flex flex-col fixed left-0 text-black bg-red-200 w-24 ${router.pathname === "/" || router.pathname === "/builder/builder" ? "hidden" :null}`}>
+        {
+          side_nav_data.map((item:any,idx:number)=>(
+            <Link href={item.path} key={idx}>
+              <button className={` py-4 flex flex-col items-center justify-center hover:bg-red-800 hover:text-white font-semibold`}>
+                <div>
+                  {item.icon}
+                </div>
+                <div>
+                  {item.name}
+                </div>
+              </button>
             </Link>
           ))
         }

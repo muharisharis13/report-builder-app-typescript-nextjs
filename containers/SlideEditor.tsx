@@ -18,7 +18,7 @@ export default function SlideEditor({}: Props) {
         </div>
 
         {/* slide content */}
-        <div id="wrap-slider-editor" className="wrap-silder bg-red-400">
+        <div id="wrap-slider-editor" className="wrap-silder bg-white">
           
         </div>
       </div>

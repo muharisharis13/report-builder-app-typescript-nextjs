@@ -1,12 +1,11 @@
 import React,{Fragment,useState} from 'react'
 import { Dialog, Transition } from '@headlessui/react';
 import {XIcon,ArrowRightIcon} from "@heroicons/react/solid";
-import Head from 'next/head';
+import {ArrowCircleRightIcon} from "@heroicons/react/outline";
 import 'react-quill/dist/quill.snow.css';
-import  ReactQuill from "react-quill";
 
-const ModalReactQuill = (props:{isOpen:boolean,setIsOpen:Function,dataProps:any,ReactQuill:any}) => {
-  const {isOpen,setIsOpen,dataProps,ReactQuill} = props;
+const ModalReactQuill = (props:{isOpen:boolean,setIsOpen:Function,dataProps:any}) => {
+  const {isOpen,setIsOpen,dataProps} = props;
   const [value,setValue] = useState<any>(null)
 
 
@@ -47,7 +46,7 @@ const ModalReactQuill = (props:{isOpen:boolean,setIsOpen:Function,dataProps:any,
           leaveFrom="opacity-100 scale-100"
           leaveTo="opacity-0 scale-95"
         >
-          <div className="inline-block w-full max-w-2xl p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-sm min-h-full">
+          <div className="inline-block w-full max-w-2xl p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-slate-300 shadow-xl rounded-md min-h-full">
             <Dialog.Title
               as="h3"
               className="text-lg flex items-center justify-end text-right font-medium leading-6 text-gray-900"
@@ -56,14 +55,19 @@ const ModalReactQuill = (props:{isOpen:boolean,setIsOpen:Function,dataProps:any,
             </Dialog.Title>
 
             {/* CONTENT ========== */}
-            <div className='text-center flex flex-col max-h-28 mt-11 w-full items-center justify-center'>
-              {
-                ReactQuill
-              }  
+            <div className='text-center flex flex-col mt-11 w-full items-center justify-center'>
+              <div className="wrap-image text-center w-full justify-center flex">
+                <img src={dataProps} alt=""
+                className=' object-contain w-3/4'
+                />
+              </div>
+              <div className="text-editor flex items-center w-full gap-2 mt-10">
+                <textarea name="" id="" placeholder='textarea' className=' w-full focus:outline-none border p-2'></textarea>
+                <button className='flex items-center rounded-full  border-none w-14 h-12 justify-center bg-blue-700 hover:bg-blue-600 text-white'>
+                  <ArrowCircleRightIcon width={30} height={30} />
+                </button>
+              </div>
             </div>
-            <Head>
-                <link rel="stylesheet" href="//cdn.quilljs.com/1.2.6/quill.snow.css"/>
-            </Head>
           </div>
         </Transition.Child>
       </div>

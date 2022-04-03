@@ -8,7 +8,8 @@ import SlideEditor from "./SlideEditor";
 import RightMenu from "./RightMenu";
 import Modal from "./modal";
 import ModalAddImage from "./modal.addImage";
-import ModalReactQuill from "./modal.ReactQuill";
+import ModalReactQuill from "./modal.image";
+import Search from "./Search";
 
 
 export {
@@ -22,5 +23,6 @@ export {
   SlideEditor,
   RightMenu,
   ModalAddImage,
-  ModalReactQuill
+  ModalReactQuill,
+  Search
 }
