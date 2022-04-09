@@ -1,12 +1,17 @@
 import React from "react";
-import Image from "next/image";
 import * as Containers from "../containers";
 import Background from "../public/cardHover.png";
+import Image from "next/image";
 
-const Template = () => {
+const New = () => {
   return (
-    <Containers.Layout title="Template">
+    <Containers.Layout title="New">
       <div className="container">
+        <div className="mb-10">
+          <p className=" font-semibold">
+            Template Report
+          </p>
+        </div>
         <div className="w-full  min-h-screen mt-6 mb-6 " id="idx-gallery">
           <div className="list-card flex flex-wrap gap-11">
             {[2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2].map(
@@ -23,7 +28,7 @@ const Template = () => {
           <button className="border px-8 py-1 font-normal cursor-pointer rounded-sm min-w-0">
             cancel
           </button>
-          <button className=" hover:bg-blue-500 mr-24 transition-all rounded-sm bg-blue-600 text-white border-blue-600 px-8 py-1 font-normal cursor-pointer min-w-0">
+          <button className=" hover:bg-blue-500 mr-32 transition-all rounded-sm bg-blue-600 text-white border-blue-600 px-8 py-1 font-normal cursor-pointer min-w-0">
             open
           </button>
         </div>
@@ -32,4 +37,4 @@ const Template = () => {
   );
 };
 
-export default Template;
+export default New;

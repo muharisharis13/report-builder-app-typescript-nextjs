@@ -12,7 +12,7 @@ const Home: NextPage = () => {
 
   return (
     <Containers.Layout>
-      <div className='w-full h-screen px-20 mb-60 ' id="idx-gallery">
+      <div className='w-full h-screen container mb-60 ' id="idx-gallery">
 
         <Head>
           <title>HOME</title>

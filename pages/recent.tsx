@@ -1,5 +1,4 @@
-import React from "react";
-import Head from "next/head";
+import React from 'react'
 import * as Containers from "../containers";
 import {
   DotsVerticalIcon,
@@ -7,18 +6,14 @@ import {
   ChevronRightIcon,
 } from "@heroicons/react/solid";
 
-const History = () => {
+const Recent = () => {
   return (
-    <Containers.Layout title="History">
-      <div className="w-full  container min-h-screen mb-6 " id="idx-gallery">
+    <Containers.Layout title='Recent'>
+      <div className="w-full  container mb-6 " id="idx-gallery">
         <div className="wrap-table-data mt-10">
           {/* table data */}
 
           <div className="wrap-form bg-white p-10 rounded-md shadow-md">
-            <div className="wrap-search flex items-center justify-center">
-              <Containers.Search />
-            </div>
-
             <div className="wrap-table-data mt-10">
               <table className=" w-full">
                 <thead className=" border-b text-left">
@@ -66,7 +61,7 @@ const History = () => {
         </div>
       </div>
     </Containers.Layout>
-  );
-};
+  )
+}
 
-export default History;
+export default Recent

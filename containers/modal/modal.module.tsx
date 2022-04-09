@@ -1,19 +1,19 @@
-import React,{Fragment} from 'react'
-import { Dialog, Transition } from '@headlessui/react';
-import {XIcon,ArrowRightIcon} from "@heroicons/react/solid";
+import React, { Fragment } from "react";
+import { Dialog, Transition } from "@headlessui/react";
+import { XIcon } from "@heroicons/react/solid";
 
-
-const ModalAddImage = (props:{isOpen:boolean,setIsOpen:Function,dataProps:any}) => {
-  const {isOpen,setIsOpen,dataProps} = props
-  const {image}:{image:any} = dataProps;
-
-
+const ModalModule = (props: {
+  isOpen: boolean;
+  onHide: Function;
+  children: any;
+}) => {
+  const { isOpen, onHide, children } = props;
   return (
     <Transition appear show={isOpen} as={Fragment}>
       <Dialog
         as="div"
         className="fixed inset-0 z-10 overflow-y-auto"
-        onClose={()=>setIsOpen()}
+        onClose={() => onHide()}
       >
         <div className="min-h-screen px-4 text-center">
           <Transition.Child
@@ -49,31 +49,17 @@ const ModalAddImage = (props:{isOpen:boolean,setIsOpen:Function,dataProps:any}) 
                 as="h3"
                 className="text-lg flex items-center justify-end text-right font-medium leading-6 text-gray-900"
               >
-                <XIcon width={20} cursor="pointer" onClick={()=>setIsOpen()} />
+                <XIcon width={20} cursor="pointer" onClick={() => onHide()} />
               </Dialog.Title>
 
               {/* CONTENT ========== */}
-              <div className='text-center flex flex-col mt-11 w-full items-center justify-center'>
-                <div className="wrap-image w-full">
-                  <img 
-                    src={image ? URL.createObjectURL(image): "" } 
-                    alt="" 
-                    className=' aspect-video'  
-                  />
-                </div>
-              </div>
-
-              
+              {children}
             </div>
           </Transition.Child>
         </div>
       </Dialog>
     </Transition>
-  )
-}
+  );
+};
 
-export default ModalAddImage
-
-ModalAddImage.defaultProps ={
-  dataProps:{}
-}
+export default ModalModule;
