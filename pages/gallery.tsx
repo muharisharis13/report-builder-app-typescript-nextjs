@@ -4,7 +4,11 @@ import Head from "next/head";
 import Image from "next/image";
 import Card from "../public/cardHover.png";
 import Bg from "../public/gambaruhuyy.png";
-import { DocumentAddIcon } from "@heroicons/react/solid";
+import {
+  DocumentAddIcon,
+  ArrowUpIcon,
+  DocumentIcon,
+} from "@heroicons/react/solid";
 import * as Containers from "../containers";
 import {
   DotsVerticalIcon,
@@ -54,7 +58,17 @@ const Gallery = () => {
                 <thead className=" border-b text-left">
                   <tr>
                     <th className=" p-2">Client</th>
-                    <th>Template Name</th>
+                    <th className=" cursor-pointer">
+                      <div className="flex items-center gap-2">
+                        <div className="iconUp">
+                          <DocumentIcon width={20} />
+                        </div>
+                        <div className="text">Template Name</div>
+                        <div className="arrow">
+                          <ArrowUpIcon width={20} />
+                        </div>
+                      </div>
+                    </th>
                     <th>Type</th>
                     <th>Time</th>
                   </tr>

@@ -6,6 +6,8 @@ import {
   ShareIcon,
   ChevronRightIcon,
   ChevronLeftIcon,
+  ArrowUpIcon,
+  DocumentIcon,
 } from "@heroicons/react/solid";
 type Props = {};
 
@@ -46,7 +48,17 @@ export default function scenario({}: Props) {
               <table className=" w-full">
                 <thead className=" border-b text-left">
                   <tr>
-                    <th className=" p-2">Template Name</th>
+                    <th className=" cursor-pointer">
+                      <div className="flex items-center gap-2">
+                        <div className="iconUp">
+                          <DocumentIcon width={20} />
+                        </div>
+                        <div className="text">Template Name</div>
+                        <div className="arrow">
+                          <ArrowUpIcon width={20} />
+                        </div>
+                      </div>
+                    </th>
                     <th>Time</th>
                     <th>Send To</th>
                     <th>Frequency</th>

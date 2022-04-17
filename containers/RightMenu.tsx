@@ -4,6 +4,84 @@ import Input from "./Input";
 import DatePicker from "react-datepicker";
 import * as Containers from "./index";
 import "react-quill/dist/quill.snow.css";
+import {
+  ChartBarIcon,
+  TrendingUpIcon,
+  TableIcon,
+  LocationMarkerIcon,
+  GlobeAltIcon,
+  PhotographIcon,
+  NewspaperIcon,
+} from "@heroicons/react/solid";
+
+const dataWidget = [
+  {
+    icon: <ChartBarIcon width={20} />,
+    name: "Chart",
+  },
+  {
+    icon: <TrendingUpIcon width={20} />,
+    name: "Trend",
+  },
+  {
+    icon: <TableIcon width={20} />,
+    name: "Table",
+  },
+  {
+    icon: <LocationMarkerIcon width={20} />,
+    name: "GIS",
+  },
+  {
+    icon: <GlobeAltIcon width={20} />,
+    name: "Network",
+  },
+  {
+    icon: <PhotographIcon width={20} />,
+    name: "Image",
+  },
+  {
+    icon: <NewspaperIcon width={20} />,
+    name: "Online News",
+  },
+];
+
+const arrTypeOfReport = [
+  {
+    name: "Onetime",
+    value: "Onetime",
+  },
+  {
+    name: "Daily",
+    value: "Daily",
+  },
+  {
+    name: "Weekly",
+    value: "Weekly",
+  },
+  {
+    name: "Monthly",
+    value: "Monthly",
+  },
+];
+
+const arrClient = [
+  {
+    name: "Client1",
+    value: "Client1",
+  },
+  {
+    name: "Client2",
+    value: "Client2",
+  },
+  {
+    name: "Client3",
+    value: "Client3",
+  },
+  {
+    name: "Client4",
+    value: "Client4",
+  },
+];
 
 type Props = {};
 
@@ -52,7 +130,10 @@ export default function RightMenu({}: Props) {
   }, [modal.addBackground]);
 
   return (
-    <div className="wrap-side-bar bg-white w-60 fixed h-full right-0">
+    <div
+      className="wrap-side-bar bg-white w-60 fixed h-screen right-0"
+      style={{ paddingBottom: "150px" }}
+    >
       {/* MODAL ===== */}
       <Containers.Modal
         isOpen={modal.addSlide}
@@ -84,7 +165,7 @@ export default function RightMenu({}: Props) {
           <DocumentAddIcon width={20} className="text-blue-700" />
         </button>
       </div>
-      <div className="wrap-preview pt-5 flex flex-col gap-5 border overflow-y-scroll h-full">
+      <div className="wrap-preview pt-5 flex flex-col gap-5 border overflow-y-scroll overflow-x-hidden h-full">
         {/* row 1 */}
         <div className="p-2">
           <div className="mb-3">
@@ -97,9 +178,9 @@ export default function RightMenu({}: Props) {
 
             <select className="w-full border h-8 px-2 focus:outline-none rounded-sm text-gray-400">
               <option>--Select--</option>
-              {[2, 2, 2, 2, 2].map((item: any, idx: number) => (
-                <option key={idx} value={idx + 1}>
-                  {idx + 1}
+              {arrClient.map((item: any, idx: number) => (
+                <option key={idx} value={item.value}>
+                  {item.name}
                 </option>
               ))}
             </select>
@@ -110,9 +191,9 @@ export default function RightMenu({}: Props) {
 
             <select className="w-full border h-8 px-2 focus:outline-none rounded-sm text-gray-400">
               <option>--Select--</option>
-              {[2, 2, 2, 2, 2].map((item: any, idx: number) => (
-                <option key={idx} value={idx + 1}>
-                  {idx + 1}
+              {arrClient.map((item: any, idx: number) => (
+                <option key={idx} value={item.value}>
+                  {item.name}
                 </option>
               ))}
             </select>
@@ -130,10 +211,10 @@ export default function RightMenu({}: Props) {
             <label htmlFor="Client">Type of Report</label>
 
             <select className="w-full border h-8 px-2 focus:outline-none rounded-sm text-gray-400">
-              <option>--Select--</option>
-              {[2, 2, 2, 2, 2].map((item: any, idx: number) => (
-                <option key={idx} value={idx + 1}>
-                  {idx + 1}
+              <option disabled>--Select--</option>
+              {arrTypeOfReport.map((item: any, idx: number) => (
+                <option key={idx} value={item.value}>
+                  {item.name}
                 </option>
               ))}
             </select>
@@ -190,6 +271,33 @@ export default function RightMenu({}: Props) {
               className="w-auto file:text-sm file:border-none file:p-2 file:font-semibold file:rounded-xl"
               onChange={(e) => BtnAddImage(e, "mainImage")}
             />
+          </div>
+        </div>
+
+        {/* ROW 3 ======= */}
+
+        <div className="row-4 border-t p-2">
+          <div className="title-text mb-10">
+            <p className="font-semibold">Widget</p>
+          </div>
+          <div className="flex justify-center items-center">
+            <div className="list-widget flex gap-5 flex-wrap">
+              {dataWidget?.map((item: any, idx: number) => (
+                <div
+                  className="widget-container cursor-pointer flex flex-col items-center"
+                  key={idx}
+                  style={{ width: "50px", overflow: "hidden" }}
+                >
+                  <div className="icon">{item.icon}</div>
+                  <div
+                    className="header text-sm font-semibold break-words text-center"
+                    style={{ width: "100%" }}
+                  >
+                    {item.name}
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </div>

@@ -7,6 +7,8 @@ import {
   DotsVerticalIcon,
   ChevronLeftIcon,
   ChevronRightIcon,
+  ArrowUpIcon,
+  DocumentIcon,
 } from "@heroicons/react/solid";
 
 const Home = () => {
@@ -98,7 +100,6 @@ const Home = () => {
             </div>
           </div>
         </div>
-
 
         {/* Button create */}
         <div className="wrap-bottom bg-slate-50 items-center justify-end flex fixed bottom-0 w-full p-2 border-t border-b gap-5">

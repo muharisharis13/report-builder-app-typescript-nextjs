@@ -8,12 +8,13 @@ const New = () => {
     <Containers.Layout title="New">
       <div className="container">
         <div className="mb-10">
-          <p className=" font-semibold">
-            Template Report
-          </p>
+          <p className=" font-semibold">Template Report</p>
         </div>
-        <div className="w-full  min-h-screen mt-6 mb-6 " id="idx-gallery">
-          <div className="list-card flex flex-wrap gap-11">
+        <div
+          className="w-full  min-h-screen mt-6 mb-6 justify-center "
+          id="idx-gallery"
+        >
+          <div className="list-card flex flex-wrap gap-11 justify-center">
             {[2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2].map(
               (item: any, idx: number) => (
                 <div key={idx} className="card text-center cursor-pointer">

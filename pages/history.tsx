@@ -2,9 +2,10 @@ import React from "react";
 import Head from "next/head";
 import * as Containers from "../containers";
 import {
-  DotsVerticalIcon,
   ChevronLeftIcon,
   ChevronRightIcon,
+  ArrowUpIcon,
+  DocumentIcon,
 } from "@heroicons/react/solid";
 
 const History = () => {
@@ -23,8 +24,18 @@ const History = () => {
               <table className=" w-full">
                 <thead className=" border-b text-left">
                   <tr>
+                    <th className=" cursor-pointer">
+                      <div className="flex items-center gap-2">
+                        <div className="iconUp">
+                          <DocumentIcon width={20} />
+                        </div>
+                        <div className="text">Template Name</div>
+                        <div className="arrow">
+                          <ArrowUpIcon width={20} />
+                        </div>
+                      </div>
+                    </th>
                     <th className=" p-2">Client</th>
-                    <th>Template Name</th>
                     <th>Type</th>
                     <th>Time</th>
                     <th>Status</th>

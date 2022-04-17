@@ -6,7 +6,10 @@ type Props = {};
 
 export default function SlideThumbnail({}: Props) {
   return (
-    <div className="wrap-side-bar bg-white w-60 fixed h-full">
+    <div
+      className="wrap-side-bar bg-white w-60 fixed h-full"
+      style={{ paddingBottom: "150px" }}
+    >
       <div className="wrap-slide-preview bg-gray-100 border p-2">
         <p className="font-semibold text-slate-900">Slide Preview</p>
       </div>

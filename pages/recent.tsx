@@ -1,14 +1,16 @@
-import React from 'react'
+import React from "react";
 import * as Containers from "../containers";
 import {
   DotsVerticalIcon,
   ChevronLeftIcon,
   ChevronRightIcon,
+  ArrowUpIcon,
+  DocumentIcon,
 } from "@heroicons/react/solid";
 
 const Recent = () => {
   return (
-    <Containers.Layout title='Recent'>
+    <Containers.Layout title="Recent">
       <div className="w-full  container mb-6 " id="idx-gallery">
         <div className="wrap-table-data mt-10">
           {/* table data */}
@@ -18,17 +20,22 @@ const Recent = () => {
               <table className=" w-full">
                 <thead className=" border-b text-left">
                   <tr>
-                    <th className=" p-2">Client</th>
-                    <th>Template Name</th>
-                    <th>Type</th>
-                    <th>Time</th>
-                    <th>Status</th>
+                    <th className=" cursor-pointer">
+                      <div className="flex items-center gap-2">
+                        <div className="iconUp">
+                          <DocumentIcon width={20} />
+                        </div>
+                        <div className="text">Filename</div>
+                      </div>
+                    </th>
+                    <th>Last Opened</th>
+                    <th>Account</th>
+                    <th>Client</th>
                   </tr>
                 </thead>
                 <tbody>
                   {[2, 2, 2, 2].map((item: any, idx: number) => (
                     <tr className=" border-b" key={idx}>
-                      <td className="p-2">The Sliding</td>
                       <td className="p-2">The Sliding</td>
                       <td className="p-2">The Sliding</td>
                       <td className="p-2">The Sliding</td>
@@ -61,7 +68,7 @@ const Recent = () => {
         </div>
       </div>
     </Containers.Layout>
-  )
-}
+  );
+};
 
-export default Recent
+export default Recent;
