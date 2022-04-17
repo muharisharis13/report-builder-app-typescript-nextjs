@@ -1,18 +1,18 @@
-import { useState,Fragment } from 'react'
-import { Dialog, Transition } from '@headlessui/react';
+import { useState, Fragment } from "react";
+import { Dialog, Transition } from "@headlessui/react";
 import Image from "next/image";
 import Card from "../public/cardHover.png";
-import Link from "next/link"
+import Link from "next/link";
 
-function MyDialog(props:{isOpen:boolean, setIsOpen:Function}) {
-  let {isOpen, setIsOpen} = props
+function MyDialog(props: { isOpen: boolean; setIsOpen: Function }) {
+  let { isOpen, setIsOpen } = props;
 
   return (
     <Transition appear show={isOpen} as={Fragment}>
       <Dialog
         as="div"
         className="fixed inset-0 z-10 overflow-y-auto"
-        onClose={()=>setIsOpen()}
+        onClose={() => setIsOpen()}
       >
         <div className="min-h-screen px-4 text-center">
           <Transition.Child
@@ -52,33 +52,28 @@ function MyDialog(props:{isOpen:boolean, setIsOpen:Function}) {
               </Dialog.Title>
 
               {/* CONTENT ========== */}
-              <div className='text-center flex items-center justify-center'>
+              <div className="text-center flex items-center justify-center">
                 <div className="wrap-thumbnail mt-10 flex gap-10 justify-center flex-wrap">
-                  {
-                    [2,2,2,2,2,2].map((item:any,idx:number)=>(
-                      <Link href='/builder/builder'>
-                        <a >
-                          <div className="card cursor-pointer" key={idx}>
-                            <Image src={Card} alt="" />
-                            <p className='text-content text-sm text-center'>
-                              Lorem, ipsum.
-                            </p>
-                          </div>
-                        </a>
-                      </Link>
-                    ))
-                  }
+                  {[2, 2, 2, 2, 2, 2].map((item: any, idx: number) => (
+                    <Link href="/builder/builder">
+                      <a>
+                        <div className="card cursor-pointer" key={idx}>
+                          <Image src={Card} alt="" />
+                          <p className="text-content text-sm text-center">
+                            Lorem, ipsum.
+                          </p>
+                        </div>
+                      </a>
+                    </Link>
+                  ))}
                 </div>
-
               </div>
-
-              
             </div>
           </Transition.Child>
         </div>
       </Dialog>
     </Transition>
-  )
+  );
 }
 
 export default MyDialog;
