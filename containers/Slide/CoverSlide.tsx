@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import pptxgen from "pptxgenjs";
 
 interface PropsItf {
   bg: any;
@@ -9,7 +10,7 @@ const CoverSlide = (props: PropsItf) => {
 
   return (
     <ContainerSlider
-      id="wrap-slider-editor"
+      id="wrap-slider-editor-cover"
       className="wrap-silder bg-white p-4 relative flex"
       bg={bg}
     >

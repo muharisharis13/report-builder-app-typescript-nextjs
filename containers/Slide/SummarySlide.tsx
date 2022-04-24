@@ -12,7 +12,21 @@ const SummarySlide = (props: PropsItf) => {
       id="wrap-slider-editor"
       className="wrap-silder bg-white p-4 relative flex"
       bg={bg}
-    ></ContainerSlider>
+    >
+      <div style={{ fontSize: "14px", textAlign: "left" }}>
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatem
+        eligendi ullam esse delectus reiciendis asperiores facere dicta
+        reprehenderit quis sunt itaque iste commodi praesentium fugit maxime,
+        neque quae distinctio repudiandae? Quas voluptatibus nobis nemo sapiente
+        alias aspernatur unde facilis praesentium delectus, qui, itaque deserunt
+        beatae explicabo quo reprehenderit totam recusandae ex earum dolores.
+        Vel ad repellendus non illo, officiis ab nemo modi quis fugit magni
+        saepe, at dolore, id veniam? Eius magnam soluta debitis, rem consequatur
+        doloribus veritatis aperiam temporibus tenetur impedit necessitatibus
+        officiis magni et, in aliquam ad accusantium ratione, ipsum commodi?
+        Quae nesciunt odio quis, quibusdam consequatur quos.
+      </div>
+    </ContainerSlider>
   );
 };
 
