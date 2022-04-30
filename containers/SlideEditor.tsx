@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { PencilIcon, TrashIcon } from "@heroicons/react/solid";
-import BgIamgeSlide from "../public/bg-mage-slide.png";
 import BgWhite from "../public/bgWhite.jpg";
-import styled from "styled-components";
+import BgSectionClose from "../public/bgSectionClose.png";
+import BgClosing from "../public/BgClosing.png";
 import CoverSlider from "./Slide/CoverSlide";
 import SummarySlider from "./Slide/SummarySlide";
 import ContentSlider from "./Slide/ContentSlider";
@@ -12,6 +12,9 @@ import {
   DefineSlideCover,
   DefineSlideSummary,
   DefineSlideContent,
+  DefineSlideContent2,
+  DefineSection,
+  DefineClosing,
 } from "./Slide/defineSlide";
 
 type Props = {};
@@ -32,6 +35,9 @@ export default function SlideEditor({}: Props) {
   pptx.defineSlideMaster(DefineSlideSummary({ title: "SLIDE_SUMMARY" }));
   pptx.defineSlideMaster(DefineSlideCover({ title: "SLIDE_COVER" }));
   pptx.defineSlideMaster(DefineSlideContent({ title: "SLIDE_CONTENT" }));
+  pptx.defineSlideMaster(DefineSlideContent2({ title: "SLIDE_CONTENT2" }));
+  pptx.defineSlideMaster(DefineSection({ title: "SLIDE_SECTION" }));
+  pptx.defineSlideMaster(DefineClosing({ title: "SLIDE_CLOSING" }));
 
   const BtnSavePptx = async () => {
     let slideCover = pptx.addSlide({ masterName: "SLIDE_COVER" });
@@ -81,6 +87,40 @@ export default function SlideEditor({}: Props) {
       path: "https://images.unsplash.com/photo-1648614009917-84831416abb6?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1374&q=80",
       placeholder: "smallLogo",
     });
+
+    let slideContent2 = pptx.addSlide({ masterName: "SLIDE_CONTENT2" });
+    slideContent2.background = {
+      path: BgWhite.src,
+    };
+    slideContent2.addText("Content Title", { placeholder: "title" });
+    slideContent2.addImage({
+      placeholder: "imageLeft",
+      path: "https://images.unsplash.com/photo-1648614009917-84831416abb6?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1374&q=80",
+    });
+    slideContent2.addText(
+      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit, odio officiis, ipsum debitis distinctio velit aperiam dolorem ea aut molestias voluptate, culpa eos. Qui temporibus eveniet eius, amet doloremque sunt. Dicta mollitia cumque voluptate, ipsum repudiandae doloremque distinctio ut asperiores odit hic totam aliquid recusandae perspiciatis, aspernatur sint, quam itaque.",
+      { placeholder: "textLeft" }
+    );
+    slideContent2.addImage({
+      placeholder: "imageRight",
+      path: "https://images.unsplash.com/photo-1648614009917-84831416abb6?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1374&q=80",
+    });
+    slideContent2.addText(
+      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit, odio officiis, ipsum debitis distinctio velit aperiam dolorem ea aut molestias voluptate, culpa eos. Qui temporibus eveniet eius, amet doloremque sunt. Dicta mollitia cumque voluptate, ipsum repudiandae doloremque distinctio ut asperiores odit hic totam aliquid recusandae perspiciatis, aspernatur sint, quam itaque.",
+      { placeholder: "textRight" }
+    );
+
+    let slideSection = pptx.addSlide({ masterName: "SLIDE_SECTION" });
+    slideSection.background = {
+      path: BgSectionClose.src,
+    };
+    slideSection.addText("SECTION", { placeholder: "title" });
+
+    let slideClosing = pptx.addSlide({ masterName: "SLIDE_CLOSING" });
+    slideClosing.background = {
+      path: BgClosing.src,
+    };
+    slideClosing.addText("bla bla bla", { placeholder: "title" });
 
     await pptx.writeFile().then((res) => {
       if (res) {
