@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useMemo, useCallback } from "react";
 import { PencilIcon, TrashIcon } from "@heroicons/react/solid";
 import BgWhite from "../public/bgWhite.jpg";
 import BgSectionClose from "../public/bgSectionClose.png";
@@ -8,6 +8,10 @@ import SummarySlider from "./Slide/SummarySlide";
 import ContentSlider from "./Slide/ContentSlider";
 import Content2Slider from "./Slide/Content2Slider";
 import pptxgen from "pptxgenjs";
+import { useRouter } from "next/router";
+import { connect } from "react-redux";
+import { Action } from "../redux";
+import moment from "moment";
 import {
   DefineSlideCover,
   DefineSlideSummary,
@@ -17,17 +21,60 @@ import {
   DefineClosing,
 } from "./Slide/defineSlide";
 
-type Props = {};
+type Props = {
+  onChangeMainTitle: Function;
+};
 
-const dataList = [
-  <CoverSlider bg={BgWhite} />,
-  <SummarySlider bg={BgWhite} />,
-  <ContentSlider bg={BgWhite} />,
-  <Content2Slider bg={BgWhite} />,
-];
+// const dataList = [
+//   <CoverSlider bg={BgWhite} />,
+//   <SummarySlider bg={BgWhite} />,
+//   <ContentSlider bg={BgWhite} />,
+//   <Content2Slider bg={BgWhite} />,
+// ];
 
-export default function SlideEditor({}: Props) {
-  const [arrSlide, setArrSlide] = useState(dataList);
+function SlideEditor(props: Props) {
+  const { typeSlide, contentCover, arrSlide, setArrSlide }: any = props;
+  const Router = useRouter();
+
+  const loadSlide = useCallback(
+    (type: any) => {
+      let Slide: any;
+      if (typeSlide) {
+        if (typeSlide === "cover") {
+          Slide = <CoverSlider bg={BgWhite} />;
+        } else if (typeSlide === "summary") {
+          Slide = <SummarySlider bg={BgWhite} />;
+        }
+
+        return setArrSlide([...arrSlide, Slide]);
+      } else {
+        return Router.back();
+      }
+    },
+    [typeSlide]
+  );
+
+  const loadSlideNew = () => {
+    let Slide: any;
+    if (typeSlide) {
+      if (typeSlide === "cover") {
+        Slide = <CoverSlider bg={BgWhite} />;
+      } else if (typeSlide === "summary") {
+        Slide = <SummarySlider bg={BgWhite} />;
+      }
+
+      return setArrSlide([Slide]);
+    } else {
+      return Router.back();
+    }
+  };
+
+  useEffect(() => {
+    loadSlideNew();
+  }, []);
+  useEffect(() => {
+    loadSlide("");
+  }, [typeSlide]);
 
   const pptx = new pptxgen();
   pptx.layout = "LAYOUT_WIDE";
@@ -45,18 +92,22 @@ export default function SlideEditor({}: Props) {
     slideCover.background = { path: BgWhite.src };
     // slideCover.addImage({ path: BgWhite.src, placeholder: "pic2" });
     slideCover.addImage({
-      path: "https://images.unsplash.com/photo-1648614009917-84831416abb6?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1374&q=80",
+      path: contentCover.smallLogo,
       placeholder: "logo1",
     });
-    slideCover.addText("Main Title", { placeholder: "mainTitle" });
-    slideCover.addText("Type Of Report", { placeholder: "typeOfReport" });
-    slideCover.addText("22/april/2022", { placeholder: "date" });
+    slideCover.addText(contentCover.mainTitle, { placeholder: "mainTitle" });
+    slideCover.addText(contentCover.typeOfReport, {
+      placeholder: "typeOfReport",
+    });
+    slideCover.addText(moment(contentCover.date).format("ddd, DD MMMM yyyy"), {
+      placeholder: "date",
+    });
     slideCover.addImage({
-      path: "https://images.unsplash.com/photo-1648614009917-84831416abb6?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1374&q=80",
+      path: contentCover.smallLogo,
       placeholder: "smallLogo",
     });
     slideCover.addImage({
-      path: "https://images.unsplash.com/photo-1648614009917-84831416abb6?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1374&q=80",
+      path: contentCover.imageMain,
       placeholder: "imageMain",
     });
 
@@ -129,9 +180,16 @@ export default function SlideEditor({}: Props) {
     });
   };
 
+  console.log("props array", arrSlide);
+
   return (
     <div className="flex-grow content-center p-2 text-center ml-60 mr-60 overflow-y-auto">
-      <button onClick={BtnSavePptx}>save</button>
+      <button
+        onClick={BtnSavePptx}
+        className=" border border-teal-500 px-2 py-1"
+      >
+        save
+      </button>{" "}
       {arrSlide?.map((item: any, idx: number) => (
         <div
           className="w-full border mt-10"
@@ -154,3 +212,21 @@ export default function SlideEditor({}: Props) {
     </div>
   );
 }
+
+const mapStateToProps = (state: any) => {
+  return {
+    contentCover: state.contentCover,
+    arrSlide: state.arrSlide,
+    typeSlide: state.typeSlide,
+  };
+};
+
+const mapDispatchToProps = (dispatch: any) => {
+  return {
+    onChangeMainTitle: (payload: any) =>
+      dispatch(Action.SET_CONTENT_COVER(payload)),
+    setArrSlide: (payload: any) => dispatch(Action.SET_ARR_SLIDE(payload)),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(SlideEditor);

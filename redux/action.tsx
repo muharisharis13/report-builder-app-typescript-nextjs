@@ -6,3 +6,22 @@ export const SET_USERDATA = (data: any) => {
     value: { ...data },
   };
 };
+
+export const SET_CONTENT_COVER = (data: any) => {
+  return {
+    type: StringTypes.SET_CONTENT_COVER,
+    value: { ...data },
+  };
+};
+export const SET_ARR_SLIDE = (data: any) => {
+  return {
+    type: StringTypes.SET_ARR_SLIDE,
+    value: data,
+  };
+};
+export const SET_TYPE_SLIDE = (data: any) => {
+  return {
+    type: StringTypes.SET_TYPE_SLIDE,
+    value: data,
+  };
+};

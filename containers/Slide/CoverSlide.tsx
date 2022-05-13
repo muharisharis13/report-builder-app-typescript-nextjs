@@ -1,12 +1,23 @@
 import React from "react";
 import styled from "styled-components";
 import pptxgen from "pptxgenjs";
+import Image from "next/image";
+import moment from "moment";
+import { connect } from "react-redux";
 
 interface PropsItf {
   bg: any;
 }
+
+interface ProptContentCover {
+  mainTitle: string;
+  typeOfReport: string;
+  date: Date;
+  smallLogo: any;
+  imageMain: any;
+}
 const CoverSlide = (props: PropsItf) => {
-  const { bg } = props;
+  const { bg, contentCover }: any = props;
 
   return (
     <ContainerSlider
@@ -18,30 +29,37 @@ const CoverSlide = (props: PropsItf) => {
         <div className="image-logo">
           <img
             id="logo"
-            src="https://images.unsplash.com/photo-1648614009917-84831416abb6?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1374&q=80"
+            src={contentCover?.smallLogo}
             className=" object-cover"
-            style={{ height: "150px", width: "150px" }}
+            // style={{ height: "150px", width: "150px" }}
+            width={150}
+            height={150}
           />
           <div>Logo I</div>
         </div>
 
-        <div className="main-title mt-5">
-          <h4 className=" text-6xl font-bold">Main Title</h4>
+        <div
+          className="main-title mt-5"
+          style={{ width: "50%", wordBreak: "break-word" }}
+        >
+          <h4 className=" text-3xl font-bold">{contentCover?.mainTitle}</h4>
         </div>
 
         <div className="typeOfReport mt-5">
-          <div className="text-xl font-bold">Type Of Report</div>
+          <div className="text-xl font-bold">{contentCover?.typeOfReport}</div>
         </div>
 
         <div className="date">
-          <small>22/april/2022</small>
+          <small>{moment(contentCover?.date).format("ddd, D MMMM yyyy")}</small>
         </div>
 
         <div className="image-logo-2 flex items-center gap-2 mt-10">
           <img
-            src="https://images.unsplash.com/photo-1648614009917-84831416abb6?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1374&q=80"
+            src={contentCover?.smallLogo}
             alt=""
-            style={{ width: "50px", height: "50px" }}
+            // style={{ width: "50px", height: "50px" }}
+            width={50}
+            height={50}
             className=" object-cover"
           />
           <div> Logo II</div>
@@ -50,9 +68,11 @@ const CoverSlide = (props: PropsItf) => {
       <div className="right flex-grow flex items-center">
         <div className="image-main">
           <img
-            src="https://images.unsplash.com/photo-1648614009917-84831416abb6?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1374&q=80"
+            src={contentCover?.imageMain}
             alt=""
-            style={{ width: "250px", height: "250px" }}
+            // style={{ width: "250px", height: "250px" }}
+            width={250}
+            height={250}
             className="object-cover"
           />
         </div>
@@ -61,7 +81,15 @@ const CoverSlide = (props: PropsItf) => {
   );
 };
 
-export default CoverSlide;
+const mapsStateToProps = (state: any) => {
+  return {
+    contentCover: state.contentCover,
+  };
+};
+
+const mapsDispatchToProps = (dispatch: any) => {};
+
+export default connect(mapsStateToProps, mapsDispatchToProps)(CoverSlide);
 
 const ContainerSlider = styled.div<{ bg: any }>`
   background-size: contain;

@@ -2,10 +2,26 @@ import { useState, Fragment } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import Image from "next/image";
 import Card from "../public/cardHover.png";
+import * as thumbnail from "../public/thumnails";
 import Link from "next/link";
+import { connect } from "react-redux";
+import { Action } from "../redux";
+
+const dataSlide = [
+  {
+    key: "cover",
+    name: "Cover",
+    image: thumbnail.ThumbnailCover,
+  },
+  {
+    key: "summary",
+    name: "Summary",
+    image: thumbnail.ThumbnailSummary,
+  },
+];
 
 function MyDialog(props: { isOpen: boolean; setIsOpen: Function }) {
-  let { isOpen, setIsOpen } = props;
+  let { isOpen, setIsOpen, setTypeSlide }: any = props;
 
   return (
     <Transition appear show={isOpen} as={Fragment}>
@@ -52,18 +68,28 @@ function MyDialog(props: { isOpen: boolean; setIsOpen: Function }) {
               </Dialog.Title>
 
               {/* CONTENT ========== */}
-              <div className="text-center flex items-center justify-center">
+              <div className="text-center flex items-center">
                 <div className="wrap-thumbnail mt-10 flex gap-10 justify-center flex-wrap">
-                  {[2, 2, 2, 2, 2, 2].map((item: any, idx: number) => (
-                    <Link href="/builder/builder">
-                      <a>
-                        <div className="card cursor-pointer" key={idx}>
-                          <Image src={Card} alt="" />
-                          <p className="text-content text-sm text-center">
-                            Lorem, ipsum.
-                          </p>
-                        </div>
-                      </a>
+                  {dataSlide.map((item: any, idx: number) => (
+                    <Link
+                      href={{
+                        pathname: "/builder/builder",
+                      }}
+                      key={idx}
+                    >
+                      <div
+                        className="card cursor-pointer"
+                        key={idx}
+                        onClick={() => {
+                          setTypeSlide(item.key);
+                          setIsOpen();
+                        }}
+                      >
+                        <Image src={item.image} alt="" />
+                        <p className="text-content text-sm text-center">
+                          {item.name}
+                        </p>
+                      </div>
                     </Link>
                   ))}
                 </div>
@@ -75,5 +101,12 @@ function MyDialog(props: { isOpen: boolean; setIsOpen: Function }) {
     </Transition>
   );
 }
+const mapsStateToProps = (state: any) => {};
 
-export default MyDialog;
+const mapsDispatchToProps = (dispatch: any) => {
+  return {
+    setTypeSlide: (payload: string) => dispatch(Action.SET_TYPE_SLIDE(payload)),
+  };
+};
+
+export default connect(mapsStateToProps, mapsDispatchToProps)(MyDialog);

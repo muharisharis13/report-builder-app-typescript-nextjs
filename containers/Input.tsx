@@ -1,17 +1,27 @@
-import React from 'react'
+import React from "react";
 
-const Input = (props:{placeholder:string}) => {
-  const {placeholder} = props
+const Input = (props: {
+  placeholder: string;
+  onChange: Function;
+  value: any;
+}) => {
+  const { placeholder, onChange, value } = props;
 
-  return <input type="text" className='mt-1 block w-full px-3 py-1 bg-white border border-slate-300 rounded-sm text-sm shadow-sm placeholder-slate-400
+  return (
+    <input
+      type="text"
+      className="mt-1 block w-full px-3 py-1 bg-white border border-slate-300 rounded-sm text-sm shadow-sm placeholder-slate-400
   focus:outline-none focus:border-sky-500 focus:ring-sky-500
-disabled:bg-slate-50 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none' 
-  placeholder={placeholder}
-/>
-}
+disabled:bg-slate-50 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none"
+      placeholder={placeholder}
+      onChange={(e) => onChange(e)}
+      value={value}
+    />
+  );
+};
 
-Input.defaultProps ={
-  placeholder:"Placeholder"
-}
+Input.defaultProps = {
+  placeholder: "Placeholder",
+};
 
-export default Input
+export default Input;

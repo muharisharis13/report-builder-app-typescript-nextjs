@@ -4,6 +4,8 @@ import Input from "./Input";
 import DatePicker from "react-datepicker";
 import * as Containers from "./index";
 import "react-quill/dist/quill.snow.css";
+import { connect, useDispatch } from "react-redux";
+import { Action } from "../redux";
 import {
   ChartBarIcon,
   TrendingUpIcon,
@@ -91,43 +93,86 @@ type PropsModal = {
   addImage: boolean;
 };
 
-export default function RightMenu({}: Props) {
+function RightMenu(props: Props) {
   const [modal, setModal] = useState<PropsModal>({
     addSlide: false,
     addBackground: false,
     addImage: false,
   });
   const [dataProps, setDataProps] = useState<any>({});
-
-  const BtnAddImage = async (e: any, name: string) => {
-    console.log(e);
-    switch (name) {
-      case "background":
-        await Promise.all([
-          setDataProps((state: any) => ({
-            ...state,
-            image: e.target.files[0],
-          })),
-          setModal((state: any) => ({ ...state, addBackground: true })),
-        ]);
-        break;
-      case "mainImage":
-        await Promise.all([
-          setDataProps(URL.createObjectURL(e.target.files[0])),
-          setModal((state: any) => ({ ...state, addImage: true })),
-        ]);
-        break;
-
-      default:
-        break;
-    }
-  };
+  const dispatch = useDispatch();
+  const { coverContent }: any = props;
 
   useEffect(() => {
     if (modal.addBackground === false) {
       setDataProps({});
     }
   }, [modal.addBackground]);
+
+  const BtnAddImage = async (e: any, name: string) => {
+    const reader = new FileReader();
+
+    switch (name) {
+      case "background":
+        return await Promise.all([
+          setDataProps((state: any) => ({
+            ...state,
+            image: e.target.files[0],
+          })),
+          setModal((state: any) => ({ ...state, addBackground: true })),
+        ]);
+      case "mainImage":
+        return await Promise.all([
+          dispatch(
+            Action.SET_CONTENT_COVER({
+              ...coverContent,
+              imageMain: URL.createObjectURL(e.target.files[0]),
+            })
+          ),
+          setDataProps(URL.createObjectURL(e.target.files[0])),
+          setModal((state: any) => ({ ...state, addImage: true })),
+        ]);
+      case "image1":
+        return await Promise.all([
+          dispatch(
+            Action.SET_CONTENT_COVER({
+              ...coverContent,
+              smallLogo: URL.createObjectURL(e.target.files[0]),
+            })
+          ),
+          setDataProps(URL.createObjectURL(e.target.files[0])),
+          setModal((state: any) => ({ ...state, addImage: true })),
+        ]);
+
+      default:
+        break;
+    }
+  };
+
+  const onChangeDocumentTitle = (e: any) => {
+    let data = {
+      ...coverContent,
+      mainTitle: e.target.value,
+    };
+    return dispatch(Action.SET_CONTENT_COVER(data));
+  };
+
+  const onChangeDate = (e: any) => {
+    let data = {
+      ...coverContent,
+      date: e,
+    };
+    return dispatch(Action.SET_CONTENT_COVER(data));
+  };
+  const onChangeTypeOfReport = (e: any) => {
+    let data = {
+      ...coverContent,
+      typeOfReport: e.target.value,
+    };
+    return dispatch(Action.SET_CONTENT_COVER(data));
+  };
+
+  console.log("righ", coverContent);
 
   return (
     <div
@@ -170,7 +215,10 @@ export default function RightMenu({}: Props) {
         <div className="p-2">
           <div className="mb-3">
             <label htmlFor="Document Title">Document Title</label>
-            <Input />
+            <Input
+              onChange={onChangeDocumentTitle}
+              value={coverContent?.mainTitle}
+            />
           </div>
 
           <div className="mb-3 flex flex-col">
@@ -202,15 +250,19 @@ export default function RightMenu({}: Props) {
             <label htmlFor="Client">Date</label>
 
             <DatePicker
-              onChange={(e) => console.log(e)}
-              selected={new Date()}
+              onChange={(e) => onChangeDate(e)}
+              selected={new Date(coverContent.date)}
               className="border rounded-sm focus:outline-none px-2 h-8 w-full cursor-pointer"
+              dateFormat={"d MMMM yyyy"}
             />
           </div>
           <div className="mb-3 flex flex-col">
             <label htmlFor="Client">Type of Report</label>
 
-            <select className="w-full border h-8 px-2 focus:outline-none rounded-sm text-gray-400">
+            <select
+              onChange={onChangeTypeOfReport}
+              className="w-full border h-8 px-2 focus:outline-none rounded-sm text-gray-400"
+            >
               <option disabled>--Select--</option>
               {arrTypeOfReport.map((item: any, idx: number) => (
                 <option key={idx} value={item.value}>
@@ -258,7 +310,7 @@ export default function RightMenu({}: Props) {
               id=""
               accept="image/*"
               className="w-auto file:text-sm file:border-none file:p-2 file:font-semibold file:rounded-xl"
-              onChange={(e) => BtnAddImage(e, "mainImage")}
+              onChange={(e) => BtnAddImage(e, "image1")}
             />
           </div>
           <div className="mb-8 flex flex-col">
@@ -304,3 +356,11 @@ export default function RightMenu({}: Props) {
     </div>
   );
 }
+
+const mapsStateToProps = (state: any) => {
+  return {
+    coverContent: state.contentCover,
+  };
+};
+
+export default connect(mapsStateToProps, {})(RightMenu);
