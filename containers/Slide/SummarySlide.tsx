@@ -1,11 +1,13 @@
 import React from "react";
 import styled from "styled-components";
+import { useSelector } from "react-redux";
 
 interface PropsItf {
   bg: any;
 }
 const SummarySlide = (props: PropsItf) => {
   const { bg } = props;
+  const { narasi } = useSelector((state: any) => state.contentSummary);
 
   return (
     <ContainerSlider
@@ -13,19 +15,7 @@ const SummarySlide = (props: PropsItf) => {
       className="wrap-silder bg-white p-4 relative flex"
       bg={bg}
     >
-      <div style={{ fontSize: "14px", textAlign: "left" }}>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatem
-        eligendi ullam esse delectus reiciendis asperiores facere dicta
-        reprehenderit quis sunt itaque iste commodi praesentium fugit maxime,
-        neque quae distinctio repudiandae? Quas voluptatibus nobis nemo sapiente
-        alias aspernatur unde facilis praesentium delectus, qui, itaque deserunt
-        beatae explicabo quo reprehenderit totam recusandae ex earum dolores.
-        Vel ad repellendus non illo, officiis ab nemo modi quis fugit magni
-        saepe, at dolore, id veniam? Eius magnam soluta debitis, rem consequatur
-        doloribus veritatis aperiam temporibus tenetur impedit necessitatibus
-        officiis magni et, in aliquam ad accusantium ratione, ipsum commodi?
-        Quae nesciunt odio quis, quibusdam consequatur quos.
-      </div>
+      <div style={{ fontSize: "14px", textAlign: "left" }}>{narasi}</div>
     </ContainerSlider>
   );
 };

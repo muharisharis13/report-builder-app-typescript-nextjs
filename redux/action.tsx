@@ -13,6 +13,12 @@ export const SET_CONTENT_COVER = (data: any) => {
     value: { ...data },
   };
 };
+export const SET_CONTENT_SUMMARY = (data: any) => {
+  return {
+    type: StringTypes.SET_CONTENT_SUMMARY,
+    value: { ...data },
+  };
+};
 export const SET_ARR_SLIDE = (data: any) => {
   return {
     type: StringTypes.SET_ARR_SLIDE,

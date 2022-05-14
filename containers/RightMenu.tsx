@@ -101,7 +101,7 @@ function RightMenu(props: Props) {
   });
   const [dataProps, setDataProps] = useState<any>({});
   const dispatch = useDispatch();
-  const { coverContent }: any = props;
+  const { coverContent, contentSummary }: any = props;
 
   useEffect(() => {
     if (modal.addBackground === false) {
@@ -155,6 +155,13 @@ function RightMenu(props: Props) {
       mainTitle: e.target.value,
     };
     return dispatch(Action.SET_CONTENT_COVER(data));
+  };
+  const onChangeNarasi = (e: any) => {
+    let data = {
+      ...contentSummary,
+      narasi: e.target.value,
+    };
+    return dispatch(Action.SET_CONTENT_SUMMARY(data));
   };
 
   const onChangeDate = (e: any) => {
@@ -219,6 +226,11 @@ function RightMenu(props: Props) {
               onChange={onChangeDocumentTitle}
               value={coverContent?.mainTitle}
             />
+          </div>
+
+          <div className="mb-3">
+            <label htmlFor="Naration">Naration</label>
+            <Input onChange={onChangeNarasi} value={contentSummary?.narasi} />
           </div>
 
           <div className="mb-3 flex flex-col">
@@ -360,6 +372,7 @@ function RightMenu(props: Props) {
 const mapsStateToProps = (state: any) => {
   return {
     coverContent: state.contentCover,
+    contentSummary: state.contentSummary,
   };
 };
 
