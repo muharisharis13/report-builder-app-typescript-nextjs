@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo, useCallback } from "react";
+import React, { useState, useEffect, useMemo, useCallback, memo } from "react";
 import { PencilIcon, TrashIcon } from "@heroicons/react/solid";
 import BgWhite from "../public/bgWhite.jpg";
 import BgSectionClose from "../public/bgSectionClose.png";
@@ -131,6 +131,8 @@ function SlideEditor(props: Props) {
     });
   };
 
+  console.log("arrSlide", arrSlide);
+
   return (
     <div className="flex-grow content-center p-2 text-center ml-60 mr-60 overflow-y-auto">
       <button
@@ -153,7 +155,6 @@ function SlideEditor(props: Props) {
               <TrashIcon width={20} className=" text-gray-500" />
             </button>
           </div>
-
           {/* slide content */}
           <div className="list-slide mb-5">{item}</div>
         </div>
@@ -179,4 +180,4 @@ const mapDispatchToProps = (dispatch: any) => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(SlideEditor);
+export default connect(mapStateToProps, mapDispatchToProps)(memo(SlideEditor));
