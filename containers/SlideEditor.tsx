@@ -93,46 +93,92 @@ function SlideEditor(props: Props) {
   pptx.defineSlideMaster(DefineClosing({ title: "SLIDE_CLOSING" }));
 
   const BtnSavePptx = async () => {
-    let slideCover = pptx.addSlide({ masterName: "SLIDE_COVER" });
+    if (typeSlide === "cover") {
+      let slideCover = pptx.addSlide({ masterName: "SLIDE_COVER" });
 
-    slideCover.background = { path: BgWhite.src };
-    // slideCover.addImage({ path: BgWhite.src, placeholder: "pic2" });
-    slideCover.addImage({
-      path: contentCover.smallLogo,
-      placeholder: "logo1",
-    });
-    slideCover.addText(contentCover.mainTitle, { placeholder: "mainTitle" });
-    slideCover.addText(contentCover.typeOfReport, {
-      placeholder: "typeOfReport",
-    });
-    slideCover.addText(moment(contentCover.date).format("ddd, DD MMMM yyyy"), {
-      placeholder: "date",
-    });
-    slideCover.addImage({
-      path: contentCover.smallLogo,
-      placeholder: "smallLogo",
-    });
-    slideCover.addImage({
-      path: contentCover.imageMain,
-      placeholder: "imageMain",
-    });
+      slideCover.background = { path: BgWhite.src };
+      // slideCover.addImage({ path: BgWhite.src, placeholder: "pic2" });
+      slideCover.addImage({
+        path: contentCover.smallLogo,
+        placeholder: "logo1",
+      });
+      slideCover.addText(contentCover.mainTitle, { placeholder: "mainTitle" });
+      slideCover.addText(contentCover.typeOfReport, {
+        placeholder: "typeOfReport",
+      });
+      slideCover.addText(
+        moment(contentCover.date).format("ddd, DD MMMM yyyy"),
+        {
+          placeholder: "date",
+        }
+      );
+      slideCover.addImage({
+        path: contentCover.smallLogo,
+        placeholder: "smallLogo",
+      });
+      slideCover.addImage({
+        path: contentCover.imageMain,
+        placeholder: "imageMain",
+      });
 
-    let slideSummry = pptx.addSlide({ masterName: "SLIDE_SUMMARY" });
+      // let slideSummry = pptx.addSlide({ masterName: "SLIDE_SUMMARY" });
 
-    slideSummry.background = {
-      path: BgWhite.src,
-    };
-    slideSummry.addText(contentSummary.narasi, { placeholder: "text" });
+      // slideSummry.background = {
+      //   path: BgWhite.src,
+      // };
+      // slideSummry.addText(contentSummary.narasi, { placeholder: "text" });
 
-    await pptx.writeFile().then((res) => {
-      if (res) {
-        window.location.reload();
-      }
-    });
+      await pptx.writeFile().then((res) => {
+        if (res) {
+          window.location.reload();
+        }
+      });
+    }
+
+    if (typeSlide === "summary") {
+      let slideSummry = pptx.addSlide({ masterName: "SLIDE_SUMMARY" });
+
+      slideSummry.background = {
+        path: BgWhite.src,
+      };
+      slideSummry.addText(contentSummary.narasi, { placeholder: "text" });
+
+      let slideCover = pptx.addSlide({ masterName: "SLIDE_COVER" });
+
+      slideCover.background = { path: BgWhite.src };
+      // slideCover.addImage({ path: BgWhite.src, placeholder: "pic2" });
+      slideCover.addImage({
+        path: contentCover.smallLogo,
+        placeholder: "logo1",
+      });
+      slideCover.addText(contentCover.mainTitle, { placeholder: "mainTitle" });
+      slideCover.addText(contentCover.typeOfReport, {
+        placeholder: "typeOfReport",
+      });
+      slideCover.addText(
+        moment(contentCover.date).format("ddd, DD MMMM yyyy"),
+        {
+          placeholder: "date",
+        }
+      );
+      slideCover.addImage({
+        path: contentCover.smallLogo,
+        placeholder: "smallLogo",
+      });
+      slideCover.addImage({
+        path: contentCover.imageMain,
+        placeholder: "imageMain",
+      });
+
+      await pptx.writeFile().then((res) => {
+        if (res) {
+          window.location.reload();
+        }
+      });
+    }
   };
 
   console.log("arrSlide", arrSlide);
-
   return (
     <div className="flex-grow content-center p-2 text-center ml-60 mr-60 overflow-y-auto">
       <button
