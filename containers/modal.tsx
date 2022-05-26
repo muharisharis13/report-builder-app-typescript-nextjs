@@ -19,9 +19,29 @@ const dataSlide = [
     image: thumbnail.ThumbnailSummary,
   },
 ];
-
 function MyDialog(props: { isOpen: boolean; setIsOpen: Function }) {
-  let { isOpen, setIsOpen, setTypeSlide }: any = props;
+  let {
+    isOpen,
+    setIsOpen,
+    setTypeSlide,
+    typeSlide,
+    setArrSlideContent,
+    arrSlideContent,
+  }: any = props;
+
+  let [count, setCount] = useState(0);
+
+  const pushSlideContent = async (key: any) => {
+    count = arrSlideContent.length;
+    setArrSlideContent([
+      ...arrSlideContent,
+      {
+        title: "Title",
+        summary: "",
+        key: `${key}_${count}`,
+      },
+    ]);
+  };
 
   return (
     <Transition appear show={isOpen} as={Fragment}>
@@ -81,8 +101,9 @@ function MyDialog(props: { isOpen: boolean; setIsOpen: Function }) {
                         className="card cursor-pointer"
                         key={idx}
                         onClick={() => {
-                          setTypeSlide(item.key);
+                          setTypeSlide([...typeSlide, item.key]);
                           setIsOpen();
+                          pushSlideContent(item.key);
                         }}
                       >
                         <Image src={item.image} alt="" />
@@ -101,11 +122,18 @@ function MyDialog(props: { isOpen: boolean; setIsOpen: Function }) {
     </Transition>
   );
 }
-const mapsStateToProps = (state: any) => {};
+const mapsStateToProps = (state: any) => {
+  return {
+    typeSlide: state.typeSlide,
+    arrSlideContent: state.arrSlideContent,
+  };
+};
 
 const mapsDispatchToProps = (dispatch: any) => {
   return {
     setTypeSlide: (payload: string) => dispatch(Action.SET_TYPE_SLIDE(payload)),
+    setArrSlideContent: (data: any) =>
+      dispatch(Action.SET_ARR_SLIDE_CONTENT(data)),
   };
 };
 

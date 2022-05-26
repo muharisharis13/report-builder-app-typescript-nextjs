@@ -101,7 +101,7 @@ function RightMenu(props: Props) {
   });
   const [dataProps, setDataProps] = useState<any>({});
   const dispatch = useDispatch();
-  const { coverContent, contentSummary }: any = props;
+  const { coverContent, contentSummary, arrSlideContent, key2 }: any = props;
 
   useEffect(() => {
     if (modal.addBackground === false) {
@@ -150,11 +150,16 @@ function RightMenu(props: Props) {
   };
 
   const onChangeDocumentTitle = (e: any) => {
-    let data = {
-      ...coverContent,
-      mainTitle: e.target.value,
-    };
-    return dispatch(Action.SET_CONTENT_COVER(data));
+    let filter = arrSlideContent.map((item: any) =>
+      item.key === key2
+        ? {
+            ...item,
+            title: e.target.value,
+          }
+        : item
+    );
+
+    return dispatch(Action.SET_ARR_SLIDE_CONTENT(filter));
   };
   const onChangeNarasi = (e: any) => {
     let data = {
@@ -164,13 +169,6 @@ function RightMenu(props: Props) {
     return dispatch(Action.SET_CONTENT_SUMMARY(data));
   };
 
-  const onChangeDate = (e: any) => {
-    let data = {
-      ...coverContent,
-      date: e,
-    };
-    return dispatch(Action.SET_CONTENT_COVER(data));
-  };
   const onChangeTypeOfReport = (e: any) => {
     let data = {
       ...coverContent,
@@ -178,8 +176,7 @@ function RightMenu(props: Props) {
     };
     return dispatch(Action.SET_CONTENT_COVER(data));
   };
-
-  console.log("righ", coverContent);
+  console.log({ arrSlideContent, key2 });
 
   return (
     <div
@@ -224,7 +221,9 @@ function RightMenu(props: Props) {
             <label htmlFor="Document Title">Document Title</label>
             <Input
               onChange={onChangeDocumentTitle}
-              value={coverContent?.mainTitle}
+              value={
+                arrSlideContent?.find((find: any) => find.key === key2)?.title
+              }
             />
           </div>
 
@@ -262,8 +261,6 @@ function RightMenu(props: Props) {
             <label htmlFor="Client">Date</label>
 
             <DatePicker
-              onChange={(e) => onChangeDate(e)}
-              selected={new Date(coverContent.date)}
               className="border rounded-sm focus:outline-none px-2 h-8 w-full cursor-pointer"
               dateFormat={"d MMMM yyyy"}
             />
@@ -370,9 +367,12 @@ function RightMenu(props: Props) {
 }
 
 const mapsStateToProps = (state: any) => {
+  console.log(state);
   return {
     coverContent: state.contentCover,
     contentSummary: state.contentSummary,
+    arrSlideContent: state.arrSlideContent,
+    key2: state.key,
   };
 };
 

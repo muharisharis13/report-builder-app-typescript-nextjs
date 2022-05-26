@@ -15,9 +15,10 @@ interface ProptContentCover {
   date: Date;
   smallLogo: any;
   imageMain: any;
+  title: any;
 }
 const CoverSlide = (props: PropsItf) => {
-  const { bg, contentCover }: any = props;
+  const { bg, contentCover, title }: any = props;
 
   return (
     <ContainerSlider
@@ -42,7 +43,7 @@ const CoverSlide = (props: PropsItf) => {
           className="main-title mt-5"
           style={{ width: "50%", wordBreak: "break-word" }}
         >
-          <h4 className=" text-3xl font-bold">{contentCover?.mainTitle}</h4>
+          <h4 className=" text-3xl font-bold">{title}</h4>
         </div>
 
         <div className="typeOfReport mt-5">
@@ -50,7 +51,7 @@ const CoverSlide = (props: PropsItf) => {
         </div>
 
         <div className="date">
-          <small>{moment(contentCover?.date).format("ddd, D MMMM yyyy")}</small>
+          {/* <small>{moment(new Date()).format("ddd, D MMMM yyyy")}</small> */}
         </div>
 
         <div className="image-logo-2 flex items-center gap-2 mt-10">

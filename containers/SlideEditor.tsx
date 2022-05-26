@@ -39,37 +39,23 @@ function SlideEditor(props: Props) {
     arrSlide,
     setArrSlide,
     contentSummary,
+    arrSlideContent,
+    changeKey
   }: any = props;
   const Router = useRouter();
-
-  const loadSlide = useCallback(
-    (type: any) => {
-      let Slide: any;
-      if (typeSlide) {
-        if (typeSlide === "cover") {
-          Slide = <CoverSlider bg={BgWhite} />;
-        } else if (typeSlide === "summary") {
-          Slide = <SummarySlider bg={BgWhite} />;
-        }
-
-        return setArrSlide([...arrSlide, Slide]);
-      } else {
-        return Router.back();
-      }
-    },
-    [typeSlide]
-  );
 
   const loadSlideNew = () => {
     let Slide: any;
     if (typeSlide) {
-      if (typeSlide === "cover") {
-        Slide = <CoverSlider bg={BgWhite} />;
-      } else if (typeSlide === "summary") {
-        Slide = <SummarySlider bg={BgWhite} />;
-      }
+      typeSlide.map((item: any) => {
+        if (item === "cover") {
+          Slide = <CoverSlider bg={BgWhite} />;
+        } else if (item === "summary") {
+          Slide = <SummarySlider bg={BgWhite} />;
+        }
+      });
 
-      return setArrSlide([Slide]);
+      return setArrSlide([...arrSlide, Slide]);
     } else {
       return Router.back();
     }
@@ -79,7 +65,8 @@ function SlideEditor(props: Props) {
     loadSlideNew();
   }, []);
   useEffect(() => {
-    loadSlide("");
+    loadSlideNew();
+    console.log("arrSlideContent", arrSlideContent);
   }, [typeSlide]);
 
   const pptx = new pptxgen();
@@ -93,92 +80,109 @@ function SlideEditor(props: Props) {
   pptx.defineSlideMaster(DefineClosing({ title: "SLIDE_CLOSING" }));
 
   const BtnSavePptx = async () => {
-    if (typeSlide === "cover") {
-      let slideCover = pptx.addSlide({ masterName: "SLIDE_COVER" });
+    typeSlide?.map((item: any) => {
+      switch (item) {
+        case "cover":
+          let slideCover = pptx.addSlide({ masterName: "SLIDE_COVER" });
 
-      slideCover.background = { path: BgWhite.src };
-      // slideCover.addImage({ path: BgWhite.src, placeholder: "pic2" });
-      slideCover.addImage({
-        path: contentCover.smallLogo,
-        placeholder: "logo1",
-      });
-      slideCover.addText(contentCover.mainTitle, { placeholder: "mainTitle" });
-      slideCover.addText(contentCover.typeOfReport, {
-        placeholder: "typeOfReport",
-      });
-      slideCover.addText(
-        moment(contentCover.date).format("ddd, DD MMMM yyyy"),
-        {
-          placeholder: "date",
-        }
-      );
-      slideCover.addImage({
-        path: contentCover.smallLogo,
-        placeholder: "smallLogo",
-      });
-      slideCover.addImage({
-        path: contentCover.imageMain,
-        placeholder: "imageMain",
-      });
+          slideCover.background = { path: BgWhite.src };
+          // slideCover.addImage({ path: BgWhite.src, placeholder: "pic2" });
+          slideCover.addImage({
+            path: contentCover.smallLogo,
+            placeholder: "logo1",
+          });
+          slideCover.addText(contentCover.mainTitle, {
+            placeholder: "mainTitle",
+          });
+          slideCover.addText(contentCover.typeOfReport, {
+            placeholder: "typeOfReport",
+          });
+          slideCover.addText(
+            moment(contentCover.date).format("ddd, DD MMMM yyyy"),
+            {
+              placeholder: "date",
+            }
+          );
+          slideCover.addImage({
+            path: contentCover.smallLogo,
+            placeholder: "smallLogo",
+          });
+          slideCover.addImage({
+            path: contentCover.imageMain,
+            placeholder: "imageMain",
+          });
 
-      // let slideSummry = pptx.addSlide({ masterName: "SLIDE_SUMMARY" });
+          break;
+        case "summary":
+          let slideSummry = pptx.addSlide({ masterName: "SLIDE_SUMMARY" });
 
-      // slideSummry.background = {
-      //   path: BgWhite.src,
-      // };
-      // slideSummry.addText(contentSummary.narasi, { placeholder: "text" });
+          slideSummry.background = {
+            path: BgWhite.src,
+          };
+          slideSummry.addText(contentSummary.narasi, { placeholder: "text" });
 
-      await pptx.writeFile().then((res) => {
-        if (res) {
-          window.location.reload();
-        }
-      });
-    }
+          break;
 
-    if (typeSlide === "summary") {
-      let slideSummry = pptx.addSlide({ masterName: "SLIDE_SUMMARY" });
+        default:
+          break;
+      }
+    });
+    await pptx.writeFile().then((res) => {
+      // if (res) {
+      //   location.reload();
+      // }
+    });
 
-      slideSummry.background = {
-        path: BgWhite.src,
-      };
-      slideSummry.addText(contentSummary.narasi, { placeholder: "text" });
+    // if (typeSlide === "summary") {
+    //   let slideSummry = pptx.addSlide({ masterName: "SLIDE_SUMMARY" });
 
-      let slideCover = pptx.addSlide({ masterName: "SLIDE_COVER" });
+    //   slideSummry.background = {
+    //     path: BgWhite.src,
+    //   };
+    //   slideSummry.addText(contentSummary.narasi, { placeholder: "text" });
 
-      slideCover.background = { path: BgWhite.src };
-      // slideCover.addImage({ path: BgWhite.src, placeholder: "pic2" });
-      slideCover.addImage({
-        path: contentCover.smallLogo,
-        placeholder: "logo1",
-      });
-      slideCover.addText(contentCover.mainTitle, { placeholder: "mainTitle" });
-      slideCover.addText(contentCover.typeOfReport, {
-        placeholder: "typeOfReport",
-      });
-      slideCover.addText(
-        moment(contentCover.date).format("ddd, DD MMMM yyyy"),
-        {
-          placeholder: "date",
-        }
-      );
-      slideCover.addImage({
-        path: contentCover.smallLogo,
-        placeholder: "smallLogo",
-      });
-      slideCover.addImage({
-        path: contentCover.imageMain,
-        placeholder: "imageMain",
-      });
+    //   let slideCover = pptx.addSlide({ masterName: "SLIDE_COVER" });
 
-      await pptx.writeFile().then((res) => {
-        if (res) {
-          window.location.reload();
-        }
-      });
-    }
+    //   slideCover.background = { path: BgWhite.src };
+    //   // slideCover.addImage({ path: BgWhite.src, placeholder: "pic2" });
+    //   slideCover.addImage({
+    //     path: contentCover.smallLogo,
+    //     placeholder: "logo1",
+    //   });
+    //   slideCover.addText(contentCover.mainTitle, { placeholder: "mainTitle" });
+    //   slideCover.addText(contentCover.typeOfReport, {
+    //     placeholder: "typeOfReport",
+    //   });
+    //   slideCover.addText(
+    //     moment(contentCover.date).format("ddd, DD MMMM yyyy"),
+    //     {
+    //       placeholder: "date",
+    //     }
+    //   );
+    //   slideCover.addImage({
+    //     path: contentCover.smallLogo,
+    //     placeholder: "smallLogo",
+    //   });
+    //   slideCover.addImage({
+    //     path: contentCover.imageMain,
+    //     placeholder: "imageMain",
+    //   });
+
+    //   await pptx.writeFile().then((res) => {
+    //     if (res) {
+    //       location.reload();
+    //     }
+    //   });
+    // }
   };
 
-  console.log("arrSlide", arrSlide);
+  const setKeySlide = (key:any) => {
+    changeKey(key)
+    // console.log(key)
+  }
+
+  console.log("Content - " , arrSlideContent )
+
   return (
     <div className="flex-grow content-center p-2 text-center ml-60 mr-60 overflow-y-auto">
       <button
@@ -187,7 +191,7 @@ function SlideEditor(props: Props) {
       >
         save
       </button>{" "}
-      {arrSlide?.map((item: any, idx: number) => (
+      {arrSlideContent?.map((item: any, idx: number) => (
         <div
           className="w-full border mt-10"
           style={{ minHeight: "427px" }}
@@ -195,14 +199,20 @@ function SlideEditor(props: Props) {
         >
           <div className="wrap-button flex items-center justify-end">
             <button className=" bg-slate-200 w-6 h-6 flex items-center justify-center">
-              <PencilIcon width={20} className=" text-gray-500" />
+              <PencilIcon width={20} className=" text-gray-500" onClick={()=>setKeySlide(`${item.key}`)} />
             </button>
             <button className=" bg-slate-200 w-6 h-6 flex items-center justify-center">
               <TrashIcon width={20} className=" text-gray-500" />
             </button>
           </div>
           {/* slide content */}
-          <div className="list-slide mb-5">{item}</div>
+          <div className="list-slide mb-5">
+            {
+              item.key === `cover_${idx}`?  <CoverSlider bg={BgWhite} title={item.title} />
+              : null
+
+            }
+          </div>
         </div>
       ))}
     </div>
@@ -215,6 +225,7 @@ const mapStateToProps = (state: any) => {
     arrSlide: state.arrSlide,
     typeSlide: state.typeSlide,
     contentSummary: state.contentSummary,
+    arrSlideContent:state.arrSlideContent
   };
 };
 
@@ -223,6 +234,7 @@ const mapDispatchToProps = (dispatch: any) => {
     onChangeMainTitle: (payload: any) =>
       dispatch(Action.SET_CONTENT_COVER(payload)),
     setArrSlide: (payload: any) => dispatch(Action.SET_ARR_SLIDE(payload)),
+    changeKey : (payload: any) => dispatch(Action.SET_KEY_SLIDE(payload))
   };
 };
 
