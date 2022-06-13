@@ -7,18 +7,26 @@ import { connect } from "react-redux";
 
 interface PropsItf {
   bg: any;
+  title: any;
+  narasi: String;
+  typeOfReport: String;
+  date: Date;
+  mainImage: any;
+  image1: any;
+  image2: any;
 }
 
-interface ProptContentCover {
-  mainTitle: string;
-  typeOfReport: string;
-  date: Date;
-  smallLogo: any;
-  imageMain: any;
-  title: any;
-}
 const CoverSlide = (props: PropsItf) => {
-  const { bg, contentCover, title }: any = props;
+  const {
+    bg,
+    contentCover,
+    title,
+    mainImage,
+    typeOfReport,
+    date,
+    image1,
+    image2,
+  }: any = props;
 
   return (
     <ContainerSlider
@@ -30,7 +38,7 @@ const CoverSlide = (props: PropsItf) => {
         <div className="image-logo">
           <img
             id="logo"
-            src={contentCover?.smallLogo}
+            src={image1 ? URL.createObjectURL(image1) : ""}
             className=" object-cover"
             // style={{ height: "150px", width: "150px" }}
             width={150}
@@ -47,16 +55,23 @@ const CoverSlide = (props: PropsItf) => {
         </div>
 
         <div className="typeOfReport mt-5">
-          <div className="text-xl font-bold">{contentCover?.typeOfReport}</div>
+          <div className="text-xl font-bold">{typeOfReport}</div>
         </div>
 
         <div className="date">
+          <h4>
+            {date.toLocaleDateString("id-ID", {
+              year: "numeric",
+              month: "long",
+              day: "numeric",
+            })}
+          </h4>
           {/* <small>{moment(new Date()).format("ddd, D MMMM yyyy")}</small> */}
         </div>
 
         <div className="image-logo-2 flex items-center gap-2 mt-10">
           <img
-            src={contentCover?.smallLogo}
+            src={image2 ? URL.createObjectURL(image2) : ""}
             alt=""
             // style={{ width: "50px", height: "50px" }}
             width={50}
@@ -69,7 +84,7 @@ const CoverSlide = (props: PropsItf) => {
       <div className="right flex-grow flex items-center">
         <div className="image-main">
           <img
-            src={contentCover?.imageMain}
+            src={mainImage ? URL?.createObjectURL(mainImage) : ""}
             alt=""
             // style={{ width: "250px", height: "250px" }}
             width={250}

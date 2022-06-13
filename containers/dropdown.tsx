@@ -27,6 +27,7 @@ export default function Example(props: { children: any; list_menu: any }) {
               <div
                 className="px-1 py-1 cursor-pointer"
                 onClick={item.path === "#" ? item?.onClick : null}
+                key={idx}
               >
                 <Menu.Item key={idx}>
                   {({ active }) => (

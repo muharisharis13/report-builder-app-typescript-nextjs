@@ -18,6 +18,26 @@ const dataSlide = [
     name: "Summary",
     image: thumbnail.ThumbnailSummary,
   },
+  {
+    key: "content",
+    name: "Content",
+    image: thumbnail.ThumbnailSummary,
+  },
+  {
+    key: "conten2",
+    name: "Content2",
+    image: thumbnail.ThumbnailSummary,
+  },
+  {
+    key: "section",
+    name: "Section",
+    image: thumbnail.ThumbnailSummary,
+  },
+  {
+    key: "closing",
+    name: "Closing",
+    image: thumbnail.ThumbnailSummary,
+  },
 ];
 function MyDialog(props: { isOpen: boolean; setIsOpen: Function }) {
   let {
@@ -33,14 +53,80 @@ function MyDialog(props: { isOpen: boolean; setIsOpen: Function }) {
 
   const pushSlideContent = async (key: any) => {
     count = arrSlideContent.length;
-    setArrSlideContent([
-      ...arrSlideContent,
-      {
-        title: "Title",
-        summary: "",
-        key: `${key}_${count}`,
-      },
-    ]);
+
+    switch (key) {
+      case "cover":
+        setArrSlideContent([
+          ...arrSlideContent,
+          {
+            title: "Add Title",
+            summary: "",
+            key: `${key}_${count}`,
+            typeOfReport: "",
+            date: new Date(),
+            mainImage: "",
+            image1: "",
+            image2: "",
+          },
+        ]);
+        break;
+      case "summary":
+        setArrSlideContent([
+          ...arrSlideContent,
+          {
+            narasi: "narasi",
+            key: `${key}_${count}`,
+          },
+        ]);
+        break;
+      case "content":
+        setArrSlideContent([
+          ...arrSlideContent,
+          {
+            title: "content title",
+            mainImage: "",
+            desc: "desc",
+            image1: "",
+            key: `${key}_${count}`,
+          },
+        ]);
+        break;
+      case "conten2":
+        setArrSlideContent([
+          ...arrSlideContent,
+          {
+            title: "content title",
+            image1: "",
+            image2: "",
+            desc1: "",
+            desc2: "",
+            key: `${key}_${count}`,
+          },
+        ]);
+        break;
+      case "section":
+        setArrSlideContent([
+          ...arrSlideContent,
+          {
+            title: "section title",
+            key: `${key}_${count}`,
+          },
+        ]);
+        break;
+      case "closing":
+        setArrSlideContent([
+          ...arrSlideContent,
+          {
+            title: "closing title",
+            key: `${key}_${count}`,
+          },
+        ]);
+        break;
+
+      default:
+        key;
+        break;
+    }
   };
 
   return (

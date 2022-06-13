@@ -1,27 +1,26 @@
 import React from "react";
 import styled from "styled-components";
-import { useSelector } from "react-redux";
-import moment from "moment";
 
 interface PropsItf {
   bg: any;
-  narasi: any;
+  title: any;
 }
-const SummarySlide = (props: PropsItf) => {
-  const { bg, narasi } = props;
+
+const closingSlider = (props: PropsItf) => {
+  const { bg, title } = props;
 
   return (
     <ContainerSlider
       id="wrap-slider-editor"
-      className="wrap-silder bg-white p-4 relative flex"
+      className="wrap-silder text-white text-left justify-center bg-white p-4 relative flex flex-col"
       bg={bg}
     >
-      <div style={{ fontSize: "14px", textAlign: "left" }}>{narasi}</div>
+      {title}
     </ContainerSlider>
   );
 };
 
-export default SummarySlide;
+export default closingSlider;
 
 const ContainerSlider = styled.div<{ bg: any }>`
   background-size: contain;

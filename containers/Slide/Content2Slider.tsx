@@ -2,9 +2,14 @@ import React from "react";
 import styled from "styled-components";
 interface PropsItf {
   bg: any;
+  title: any;
+  image1: any;
+  image2: any;
+  desc1: any;
+  desc2: any;
 }
 const Content2Slider = (props: PropsItf) => {
-  const { bg } = props;
+  const { bg, title, image1, image2, desc1, desc2 } = props;
   return (
     <ContainerSlider
       id="wrap-slider-editor"
@@ -12,35 +17,21 @@ const Content2Slider = (props: PropsItf) => {
       bg={bg}
     >
       <div className="title-text text-left mb-5">
-        <h5 className=" text-4xl font-bold">Content Title 2</h5>
+        <h5 className=" text-4xl font-bold">{title}</h5>
       </div>
 
       <div className="wrap-image flex">
         <div className="wrap-left text-center w-2/4  flex flex-col items-center">
           <div className="wrap-image w-80 h-80">
-            <img
-              src="https://images.unsplash.com/photo-1544967082-d9d25d867d66?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1480&q=80"
-              alt=""
-            />
+            <img src={image1 ? URL.createObjectURL(image1) : ""} alt="" />
           </div>
-          <div className="wrap-text text-left text-sm">
-            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Nulla
-            fugiat nostrum dolores laboriosam esse. Similique, ipsam
-            reprehenderit? Aperiam, at architecto!
-          </div>
+          <div className="wrap-text text-left text-sm">{desc1}</div>
         </div>
         <div className="wrap-right text-center w-2/4  flex flex-col items-center">
           <div className="wrap-image w-80 h-80">
-            <img
-              src="https://images.unsplash.com/photo-1544967082-d9d25d867d66?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1480&q=80"
-              alt=""
-            />
+            <img src={image2 ? URL.createObjectURL(image2) : ""} alt="" />
           </div>
-          <div className="wrap-text text-left text-sm">
-            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Nulla
-            fugiat nostrum dolores laboriosam esse. Similique, ipsam
-            reprehenderit? Aperiam, at architecto!
-          </div>
+          <div className="wrap-text text-left text-sm">{desc2}</div>
         </div>
       </div>
     </ContainerSlider>

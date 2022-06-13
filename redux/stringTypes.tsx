@@ -6,3 +6,4 @@ export const SET_ARR_SLIDE = "SET_ARR_SLIDE";
 export const SET_TYPE_SLIDE = "SET_TYPE_SLIDE";
 export const SET_ARR_SLIDE_CONTENT = "SET_ARR_SLIDE_CONTENT";
 export const SET_KEY_SLIDE = "SET_KEY_SLIDE";
+export const SET_BTN_SAVE = "SET_BTN_SAVE";

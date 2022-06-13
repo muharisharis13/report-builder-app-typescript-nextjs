@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo, useCallback, memo } from "react";
+import React, { useEffect, memo } from "react";
 import { PencilIcon, TrashIcon } from "@heroicons/react/solid";
 import BgWhite from "../public/bgWhite.jpg";
 import BgSectionClose from "../public/bgSectionClose.png";
@@ -7,11 +7,12 @@ import CoverSlider from "./Slide/CoverSlide";
 import SummarySlider from "./Slide/SummarySlide";
 import ContentSlider from "./Slide/ContentSlider";
 import Content2Slider from "./Slide/Content2Slider";
+import SectionSlider from "./Slide/sectionSlider";
+import ClosingSlider from "./Slide/closingSlider";
 import pptxgen from "pptxgenjs";
 import { useRouter } from "next/router";
 import { connect } from "react-redux";
 import { Action } from "../redux";
-import moment from "moment";
 import {
   DefineSlideCover,
   DefineSlideSummary,
@@ -25,49 +26,15 @@ type Props = {
   onChangeMainTitle: Function;
 };
 
-// const dataList = [
-//   <CoverSlider bg={BgWhite} />,
-//   <SummarySlider bg={BgWhite} />,
-//   <ContentSlider bg={BgWhite} />,
-//   <Content2Slider bg={BgWhite} />,
-// ];
-
 function SlideEditor(props: Props) {
   const {
     typeSlide,
-    contentCover,
-    arrSlide,
-    setArrSlide,
-    contentSummary,
     arrSlideContent,
-    changeKey
+    changeKey,
+    setArrSlideContent,
+    setBtnSave,
   }: any = props;
   const Router = useRouter();
-
-  const loadSlideNew = () => {
-    let Slide: any;
-    if (typeSlide) {
-      typeSlide.map((item: any) => {
-        if (item === "cover") {
-          Slide = <CoverSlider bg={BgWhite} />;
-        } else if (item === "summary") {
-          Slide = <SummarySlider bg={BgWhite} />;
-        }
-      });
-
-      return setArrSlide([...arrSlide, Slide]);
-    } else {
-      return Router.back();
-    }
-  };
-
-  useEffect(() => {
-    loadSlideNew();
-  }, []);
-  useEffect(() => {
-    loadSlideNew();
-    console.log("arrSlideContent", arrSlideContent);
-  }, [typeSlide]);
 
   const pptx = new pptxgen();
   pptx.layout = "LAYOUT_WIDE";
@@ -80,51 +47,146 @@ function SlideEditor(props: Props) {
   pptx.defineSlideMaster(DefineClosing({ title: "SLIDE_CLOSING" }));
 
   const BtnSavePptx = async () => {
-    typeSlide?.map((item: any) => {
-      switch (item) {
-        case "cover":
-          let slideCover = pptx.addSlide({ masterName: "SLIDE_COVER" });
-
-          slideCover.background = { path: BgWhite.src };
-          // slideCover.addImage({ path: BgWhite.src, placeholder: "pic2" });
-          slideCover.addImage({
-            path: contentCover.smallLogo,
-            placeholder: "logo1",
-          });
-          slideCover.addText(contentCover.mainTitle, {
+    console.log("berhasil");
+    arrSlideContent?.map((item: any, idx: any) => {
+      if (item.key.includes("cover")) {
+        let slideCover = pptx.addSlide({ masterName: "SLIDE_COVER" });
+        slideCover.background = { path: BgWhite.src };
+        slideCover.addImage({
+          path: arrSlideContent[idx].image1
+            ? URL.createObjectURL(arrSlideContent[idx].image1)
+            : "-",
+          placeholder: "logo1",
+        });
+        slideCover.addText(
+          arrSlideContent[idx].title ? arrSlideContent[idx].title : "-",
+          {
             placeholder: "mainTitle",
-          });
-          slideCover.addText(contentCover.typeOfReport, {
+          }
+        );
+        slideCover.addText(
+          arrSlideContent[idx].typeOfReport
+            ? arrSlideContent[idx].typeOfReport
+            : "-",
+          {
             placeholder: "typeOfReport",
-          });
-          slideCover.addText(
-            moment(contentCover.date).format("ddd, DD MMMM yyyy"),
-            {
-              placeholder: "date",
-            }
-          );
-          slideCover.addImage({
-            path: contentCover.smallLogo,
-            placeholder: "smallLogo",
-          });
-          slideCover.addImage({
-            path: contentCover.imageMain,
-            placeholder: "imageMain",
-          });
+          }
+        );
+        slideCover.addText(
+          // moment(arrSlideContent[idx].date).format('ddd, DD MMMM yyyy'),
+          arrSlideContent[idx].date.toLocaleDateString("id-ID", {
+            year: "numeric",
+            month: "long",
+            day: "numeric",
+          }),
+          {
+            placeholder: "date",
+          }
+        );
+        slideCover.addImage({
+          path: arrSlideContent[idx].image2
+            ? URL.createObjectURL(arrSlideContent[idx].image2)
+            : "-",
+          placeholder: "smallLogo",
+        });
+        slideCover.addImage({
+          path: arrSlideContent[idx].mainImage
+            ? URL.createObjectURL(arrSlideContent[idx].mainImage)
+            : "-",
+          placeholder: "imageMain",
+        });
+      } else if (item.key.includes("summary")) {
+        let slideSummry = pptx.addSlide({ masterName: "SLIDE_SUMMARY" });
 
-          break;
-        case "summary":
-          let slideSummry = pptx.addSlide({ masterName: "SLIDE_SUMMARY" });
+        slideSummry.addText(
+          arrSlideContent[idx].narasi ? arrSlideContent[idx].narasi : "-",
+          {
+            placeholder: "text",
+          }
+        );
 
-          slideSummry.background = {
-            path: BgWhite.src,
-          };
-          slideSummry.addText(contentSummary.narasi, { placeholder: "text" });
+        slideSummry.background = {
+          path: BgWhite.src,
+        };
+      } else if (item.key.includes("content")) {
+        let content = pptx.addSlide({ masterName: "SLIDE_CONTENT" });
+        content.addText(
+          arrSlideContent[idx].title ? arrSlideContent[idx].title : "-",
+          {
+            placeholder: "title",
+          }
+        );
+        content.addText(
+          arrSlideContent[idx].desc ? arrSlideContent[idx].desc : "-",
+          {
+            placeholder: "content",
+          }
+        );
+        content.addImage({
+          path: arrSlideContent[idx].image1
+            ? URL.createObjectURL(arrSlideContent[idx].image1)
+            : "-",
+          placeholder: "smallLogo",
+        });
+        content.addImage({
+          path: arrSlideContent[idx].mainImage
+            ? URL.createObjectURL(arrSlideContent[idx].mainImage)
+            : "-",
+          placeholder: "image",
+        });
+        content.background = { path: BgWhite.src };
+      } else if (item.key.includes("conten2")) {
+        let content2 = pptx.addSlide({ masterName: "SLIDE_CONTENT2" });
 
-          break;
-
-        default:
-          break;
+        content2.addText(
+          arrSlideContent[idx].title ? arrSlideContent[idx].title : "-",
+          {
+            placeholder: "title",
+          }
+        );
+        content2.addText(
+          arrSlideContent[idx].desc1 ? arrSlideContent[idx].desc1 : "-",
+          {
+            placeholder: "textLeft",
+          }
+        );
+        content2.addText(
+          arrSlideContent[idx].desc2 ? arrSlideContent[idx].desc2 : "-",
+          {
+            placeholder: "textRight",
+          }
+        );
+        content2.addImage({
+          path: arrSlideContent[idx].image1
+            ? URL.createObjectURL(arrSlideContent[idx].image1)
+            : "-",
+          placeholder: "imageLeft",
+        });
+        content2.addImage({
+          path: arrSlideContent[idx].image2
+            ? URL.createObjectURL(arrSlideContent[idx].image2)
+            : "-",
+          placeholder: "imageRight",
+        });
+        content2.background = { path: BgWhite.src };
+      } else if (item.key.includes("section")) {
+        let section = pptx.addSlide({ masterName: "SLIDE_SECTION" });
+        section.addText(
+          arrSlideContent[idx].title ? arrSlideContent[idx].title : "-",
+          {
+            placeholder: "title",
+          }
+        );
+        section.background = { path: BgSectionClose.src };
+      } else if (item.key.includes("closing")) {
+        let closing = pptx.addSlide({ masterName: "SLIDE_CLOSING" });
+        closing.addText(
+          arrSlideContent[idx].title ? arrSlideContent[idx].title : "-",
+          {
+            placeholder: "title",
+          }
+        );
+        closing.background = { path: BgClosing.src };
       }
     });
     await pptx.writeFile().then((res) => {
@@ -132,65 +194,33 @@ function SlideEditor(props: Props) {
       //   location.reload();
       // }
     });
-
-    // if (typeSlide === "summary") {
-    //   let slideSummry = pptx.addSlide({ masterName: "SLIDE_SUMMARY" });
-
-    //   slideSummry.background = {
-    //     path: BgWhite.src,
-    //   };
-    //   slideSummry.addText(contentSummary.narasi, { placeholder: "text" });
-
-    //   let slideCover = pptx.addSlide({ masterName: "SLIDE_COVER" });
-
-    //   slideCover.background = { path: BgWhite.src };
-    //   // slideCover.addImage({ path: BgWhite.src, placeholder: "pic2" });
-    //   slideCover.addImage({
-    //     path: contentCover.smallLogo,
-    //     placeholder: "logo1",
-    //   });
-    //   slideCover.addText(contentCover.mainTitle, { placeholder: "mainTitle" });
-    //   slideCover.addText(contentCover.typeOfReport, {
-    //     placeholder: "typeOfReport",
-    //   });
-    //   slideCover.addText(
-    //     moment(contentCover.date).format("ddd, DD MMMM yyyy"),
-    //     {
-    //       placeholder: "date",
-    //     }
-    //   );
-    //   slideCover.addImage({
-    //     path: contentCover.smallLogo,
-    //     placeholder: "smallLogo",
-    //   });
-    //   slideCover.addImage({
-    //     path: contentCover.imageMain,
-    //     placeholder: "imageMain",
-    //   });
-
-    //   await pptx.writeFile().then((res) => {
-    //     if (res) {
-    //       location.reload();
-    //     }
-    //   });
-    // }
   };
 
-  const setKeySlide = (key:any) => {
-    changeKey(key)
-    // console.log(key)
-  }
+  const setKeySlide = (key: any) => {
+    changeKey(key);
+  };
 
-  console.log("Content - " , arrSlideContent )
+  const deleteSlide = async (idx: any) => {
+    const filter = arrSlideContent.filter((filter: any) => filter.key !== idx);
+
+    setArrSlideContent(filter);
+  };
+
+  useEffect(() => {
+    setBtnSave(BtnSavePptx);
+    if (arrSlideContent?.length === 0) {
+      Router.push("/");
+    }
+  }, [arrSlideContent]);
 
   return (
     <div className="flex-grow content-center p-2 text-center ml-60 mr-60 overflow-y-auto">
-      <button
+      {/* <button
         onClick={BtnSavePptx}
         className=" border border-teal-500 px-2 py-1"
       >
         save
-      </button>{" "}
+      </button>{" "} */}
       {arrSlideContent?.map((item: any, idx: number) => (
         <div
           className="w-full border mt-10"
@@ -199,19 +229,63 @@ function SlideEditor(props: Props) {
         >
           <div className="wrap-button flex items-center justify-end">
             <button className=" bg-slate-200 w-6 h-6 flex items-center justify-center">
-              <PencilIcon width={20} className=" text-gray-500" onClick={()=>setKeySlide(`${item.key}`)} />
+              <PencilIcon
+                width={20}
+                className=" text-gray-500"
+                onClick={() => setKeySlide(`${item.key}`)}
+              />
             </button>
             <button className=" bg-slate-200 w-6 h-6 flex items-center justify-center">
-              <TrashIcon width={20} className=" text-gray-500" />
+              <TrashIcon
+                width={20}
+                className=" text-gray-500"
+                onClick={() => deleteSlide(`${item.key}`)}
+              />
             </button>
           </div>
           {/* slide content */}
           <div className="list-slide mb-5">
-            {
-              item.key === `cover_${idx}`?  <CoverSlider bg={BgWhite} title={item.title} />
-              : null
-
-            }
+            {item.key?.includes("cover") ? (
+              <CoverSlider
+                bg={BgWhite}
+                narasi={item.narasi}
+                title={item.title}
+                typeOfReport={item.typeOfReport}
+                date={item.date}
+                mainImage={item.mainImage}
+                image1={item.image1}
+                image2={item.image2}
+              />
+            ) : item.key?.includes("summary") ? (
+              <SummarySlider
+                bg={BgWhite}
+                narasi={item.narasi}
+                // title={item.title}
+                // typeOfReport={item.typeOfReport}
+                // date={item.date}
+              />
+            ) : item.key?.includes("content") ? (
+              <ContentSlider
+                bg={BgWhite}
+                title={item.title}
+                mainImage={item.mainImage}
+                image1={item.image1}
+                desc={item.desc}
+              />
+            ) : item.key?.includes("conten2") ? (
+              <Content2Slider
+                bg={BgWhite}
+                title={item.title}
+                image1={item.image1}
+                image2={item.image2}
+                desc1={item.desc1}
+                desc2={item.desc2}
+              />
+            ) : item.key?.includes("section") ? (
+              <SectionSlider bg={BgSectionClose} title={item.title} />
+            ) : item.key?.includes("closing") ? (
+              <ClosingSlider bg={BgSectionClose} title={item.title} />
+            ) : null}
           </div>
         </div>
       ))}
@@ -225,7 +299,7 @@ const mapStateToProps = (state: any) => {
     arrSlide: state.arrSlide,
     typeSlide: state.typeSlide,
     contentSummary: state.contentSummary,
-    arrSlideContent:state.arrSlideContent
+    arrSlideContent: state.arrSlideContent,
   };
 };
 
@@ -234,7 +308,10 @@ const mapDispatchToProps = (dispatch: any) => {
     onChangeMainTitle: (payload: any) =>
       dispatch(Action.SET_CONTENT_COVER(payload)),
     setArrSlide: (payload: any) => dispatch(Action.SET_ARR_SLIDE(payload)),
-    changeKey : (payload: any) => dispatch(Action.SET_KEY_SLIDE(payload))
+    changeKey: (payload: any) => dispatch(Action.SET_KEY_SLIDE(payload)),
+    setArrSlideContent: (data: any) =>
+      dispatch(Action.SET_ARR_SLIDE_CONTENT(data)),
+    setBtnSave: (payload: any) => dispatch(Action.SET_BTN_SAVE(payload)),
   };
 };
 
